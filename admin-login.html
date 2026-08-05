@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مصيفي | تسجيل دخول الأدمن</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  
+  <!-- مكتبة EmailJS لارسال الأكواد -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("U71bbB-UFAE8bxILV");
+    })();
+  </script>
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0b3d3e 0%, #16241f 50%, #051d1e 100%);
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --accent-coral: #E96D46;
+      --accent-coral-hover: #d85b34;
+      --sea-deep: #0B3D3E;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      font-family: 'Tajawal', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 0;
+    }
+
+    /* Navbar Modern Style */
+    .navbar {
+      background: rgba(11, 61, 62, 0.6) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 15px 0;
+    }
+
+    .login-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: 40px 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      padding: 40px 32px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--glass-border);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .admin-badge {
+      width: 60px;
+      height: 60px;
+      background: rgba(11, 61, 62, 0.08);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 16px;
+      color: var(--sea-deep);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-header h2 {
+      color: var(--sea-deep);
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 0 6px 0;
+    }
+
+    .login-header p {
+      color: #666;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--sea-deep);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      background: #fdfdfd;
+      transition: all 0.25s ease;
+      box-sizing: border-box;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--sea-deep);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(11, 61, 62, 0.1);
+    }
+
+    .btn-action {
+      width: 100%;
+      background: var(--accent-coral);
+      color: #fff;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(233, 109, 70, 0.25);
+    }
+
+    .btn-action:hover {
+      background: var(--accent-coral-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(233, 109, 70, 0.35);
+    }
+
+    .btn-action:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .otp-box {
+      background: rgba(11, 61, 62, 0.05);
+      border: 1px dashed rgba(11, 61, 62, 0.2);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 13px;
+      color: var(--sea-deep);
+      margin-bottom: 22px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .otp-input {
+      letter-spacing: 8px;
+      font-size: 24px !important;
+      font-weight: 800;
+      text-align: center;
+      color: var(--sea-deep);
+    }
+
+    .btn-back {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #777;
+      margin-top: 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .btn-back:hover {
+      color: var(--sea-deep);
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.2) !important;
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+      <a href="index.html" class="brand" style="color:#fff;">مصيفي<span class="dot" style="color:var(--accent-coral);">.</span></a>
+      <a href="index.html" class="nav-cta" style="background:rgba(255,255,255,0.15); color:#fff;">العودة للموقع ←</a>
+    </div>
+  </nav>
+
+  <!-- Login Main Wrapper -->
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="admin-badge">🔐</div>
+      
+      <div class="login-header">
+        <h2>لوحة تحكم الأدمن</h2>
+        <p>قم بتسجيل الدخول للوصول إلى إدارة الشاليهات</p>
+      </div>
+
+      <!-- الخطوة الأولى: اسم المستخدم وكلمة السر -->
+      <form id="login-step-1">
+        <div class="form-group">
+          <label>اسم المستخدم</label>
+          <input type="text" id="login-user" class="form-control" required placeholder="أدخل اسم المستخدم">
+        </div>
+        <div class="form-group">
+          <label>كلمة السر</label>
+          <input type="password" id="login-pass" class="form-control" required placeholder="••••••••">
+        </div>
+        <button type="submit" id="btn-step-1" class="btn-action">متابعة وإرسال كود التحقق ←</button>
+      </form>
+
+      <!-- الخطوة الثانية: إدخال الـ OTP -->
+      <form id="login-step-2" style="display:none;">
+        <div class="otp-box">
+          📩 تم إرسال رمز التحقق المكون من 6 أرقام إلى بريدك الإلكتروني. يرجى فحص الوارد أو (Spam).
+        </div>
+        <div class="form-group">
+          <label style="text-align: center;">رمز التحقق (OTP)</label>
+          <input type="text" id="input-otp" class="form-control otp-input" maxlength="6" required placeholder="------">
+        </div>
+        <button type="submit" class="btn-action" style="background:var(--sea-deep);">تأكيد الدخول 🔑</button>
+        <button type="button" onclick="resetToStepOne()" class="btn-back">← العودة للخطوة السابقة</button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="padding: 18px 0; text-align: center; color: rgba(255,255,255,0.6); font-size: 13px;">
+    جميع الحقوق محفوظة © مصيفي 2026
+  </footer>
+
+  <!-- JS Logic (بدون أي تغيير في الوظائف) -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    let generatedCode = "";
+    const SERVICE_ID = "service_eap4w14";
+    const TEMPLATE_ID = "template_e576fk6";
+
+    document.getElementById('login-step-1').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value.trim();
+
+      const admins = typeof getAdmins === 'function' ? getAdmins() : [{username: 'admin', password: '123'}];
+      const found = admins.find(a => a.username === user && a.password === pass);
+
+      if (found) {
+        sessionStorage.setItem('mosaify_temp_user', user);
+        const btn = document.getElementById('btn-step-1');
+        btn.disabled = true;
+        btn.innerText = "جاري إرسال رمز التحقق للإيميل... ⏳";
+
+        await sendOtpEmail();
+
+        btn.disabled = false;
+        btn.innerText = "متابعة وإرسال كود التحقق ←";
+
+        this.style.display = 'none';
+        document.getElementById('login-step-2').style.display = 'block';
+      } else {
+        alert('اسم المستخدم أو كلمة السر غير صحيحة!');
+      }
+    });
+
+    async function sendOtpEmail() {
+      generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+      const templateParams = {
+        to_name: sessionStorage.getItem('mosaify_temp_user') || "Admin",
+        otp_code: generatedCode,
+        message: `رمز التحقق الخاص بك لتسجيل الدخول إلى لوحة تحكم مصيفي هو: ${generatedCode}`
+      };
+
+      try {
+        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+        alert('تم إرسال كود التحقق بنجاح إلى إيميلك المسجل 📩');
+      } catch (error) {
+        console.error('فشل إرسال الإيميل عبر EmailJS:', error);
+        alert('حدث خطأ أثناء إرسال البريد. تأكد من الاتصال بالإنترنت أو إعدادات الحساب.');
+      }
+    }
+
+    document.getElementById('login-step-2').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const inputCode = document.getElementById('input-otp').value.trim();
+
+      if (inputCode === generatedCode) {
+        sessionStorage.setItem('mosaify_admin_authenticated', 'true');
+        sessionStorage.setItem('mosaify_logged_user', sessionStorage.getItem('mosaify_temp_user'));
+        alert('تم التحقق بنجاح! جاري التوجيه للوحة التحكم...');
+        window.location.href = 'admin.html';
+      } else {
+        alert('كود التأكيد غير صحيح! حاول مرة أخرى.');
+      }
+    });
+
+    function resetToStepOne() {
+      document.getElementById('login-step-2').style.display = 'none';
+      document.getElementById('login-step-1').style.display = 'block';
+      document.getElementById('input-otp').value = '';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مصيفي | تجربة حجز الشاليهات الأفخم في مصر</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #071516;
+      --bg-surface: #0e2425;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --accent-gold: #ffb703;
+      --accent-coral: #ff5e36;
+      --accent-teal: #00b4d8;
+      --accent-green: #2ecc71;
+      --text-white: #ffffff;
+      --text-dim: #cbd5e1;
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+    }
+
+    * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      overflow-x: hidden;
+    }
+
+    /* === Navbar عائم وشفاف وموضح الألوان === */
+    .navbar-wrapper {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 0 20px;
+    }
+
+    .navbar {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(14, 36, 37, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 50px;
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .brand span { color: var(--accent-gold); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* تحسين وضوح نصوص الـ Navbar */
+    .nav-links a {
+      text-decoration: none;
+      color: #e2e8f0;
+      font-weight: 800;
+      font-size: 16px;
+      opacity: 0.9;
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--accent-gold);
+      opacity: 1;
+      text-shadow: 0 0 12px rgba(255, 183, 3, 0.4);
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #fb8500 100%);
+      color: #000;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 900;
+      font-size: 15px;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(255, 183, 3, 0.35);
+    }
+
+    .nav-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 183, 3, 0.6);
+    }
+
+    /* === Hero Section === */
+    .hero {
+      min-height: 90vh;
+      background: radial-gradient(circle at 50% 30%, #174244 0%, var(--bg-dark) 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 140px 20px 80px;
+      position: relative;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .badge-glow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 180, 216, 0.12);
+      border: 1px solid rgba(0, 180, 216, 0.4);
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(0, 180, 216, 0.2);
+    }
+
+    .hero h1 {
+      font-size: 54px;
+      font-weight: 900;
+      line-height: 1.2;
+      margin: 0 0 20px;
+      background: linear-gradient(to bottom, #ffffff, #cbd5e1);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-coral));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p.lead {
+      font-size: 19px;
+      color: var(--text-dim);
+      max-width: 650px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    /* === شريط بحث زجاجي فاخر === */
+    .hero-search {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 16px;
+      border-radius: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    .search-group {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 10px 16px;
+      text-align: right;
+    }
+
+    .search-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .search-group select, .search-group input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .search-group select option {
+      background: var(--bg-surface);
+      color: #fff;
+    }
+
+    .hero-search-btn {
+      background: linear-gradient(135deg, var(--accent-coral) 0%, #d62828 100%);
+      color: #fff;
+      height: 100%;
+      padding: 0 36px;
+      border-radius: 18px;
+      border: none;
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(255, 94, 54, 0.4);
+    }
+
+    .hero-search-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(255, 94, 54, 0.6);
+    }
+
+    /* === الأقسام الرئيسية === */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: 900;
+      margin: 0 0 10px;
+    }
+
+    .section-subtitle {
+      color: var(--text-dim);
+      font-size: 16px;
+      margin: 0;
+    }
+
+    /* === كروت الخطوات === */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .step-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .step-card:hover::before { opacity: 1; }
+
+    .step-icon {
+      width: 70px; height: 70px;
+      background: rgba(0, 180, 216, 0.1);
+      border: 1px solid rgba(0, 180, 216, 0.3);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 24px;
+    }
+
+    .step-card h3 { font-size: 20px; font-weight: 800; margin: 0 0 12px; }
+    .step-card p { color: var(--text-dim); font-size: 14.5px; line-height: 1.7; margin: 0; }
+
+    /* === قسم متابعة الحجز (Track Booking) === */
+    .track-booking-wrapper {
+      background: linear-gradient(135deg, rgba(14, 36, 37, 0.85) 0%, rgba(7, 21, 22, 0.95) 100%);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 50px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .track-search-box {
+      max-width: 580px;
+      margin: 30px auto 0;
+      display: flex;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .track-search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 20px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .track-search-box input::placeholder {
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .track-search-btn {
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #fb8500 100%);
+      color: #000;
+      border: none;
+      padding: 0 30px;
+      border-radius: 40px;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 183, 3, 0.3);
+    }
+
+    .track-search-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 25px rgba(255, 183, 3, 0.5);
+    }
+
+    /* === مودال تفاصيل الحجز === */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(7, 21, 22, 0.88);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+
+    .track-modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .track-modal-card { transform: scale(1); }
+
+    .track-modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .track-modal-header h3 { margin: 0; font-size: 20px; font-weight: 800; color: #fff; }
+
+    .close-track-modal {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .close-track-modal:hover { background: rgba(255,255,255,0.25); }
+
+    .track-detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      font-size: 14.5px;
+    }
+
+    .track-detail-label { color: var(--text-dim); }
+    .track-detail-val { font-weight: 800; color: #fff; }
+
+    .status-badge {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 13px;
+      display: inline-block;
+    }
+
+    .status-badge.accepted { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.4); }
+    .status-badge.pending { background: rgba(255, 183, 3, 0.2); color: #ffb703; border: 1px solid rgba(255, 183, 3, 0.4); }
+    .status-badge.canceled { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.4); }
+
+    /* === الفوتر (Footer) === */
+    .footer {
+      background: #030a0a;
+      border-top: 1px solid var(--card-border);
+      padding: 80px 0 30px;
+      margin-top: 60px;
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 50px;
+    }
+
+    .footer-desc {
+      color: var(--text-dim);
+      line-height: 1.8;
+      font-size: 15px;
+      max-width: 380px;
+      margin-top: 16px;
+    }
+
+    .footer-head { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 20px; }
+    .footer-links-list { list-style: none; padding: 0; margin: 0; }
+    .footer-links-list li { margin-bottom: 12px; }
+    .footer-links-list a { color: var(--text-dim); text-decoration: none; font-size: 14.5px; }
+    .footer-links-list a:hover { color: var(--accent-gold); }
+
+    .footer-bottom-bar {
+      max-width: 1200px;
+      margin: 60px auto 0;
+      padding: 24px 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13.5px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .hero-search { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 36px; }
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .track-search-box { flex-direction: column; border-radius: 20px; padding: 12px; }
+      .track-search-btn { height: 48px; border-radius: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شريط الملاحة (Navbar) -->
+  <div class="navbar-wrapper">
+    <nav class="navbar">
+      <a href="index.html" class="brand">مصيفي<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">الرئيسية</a></li>
+        <li><a href="listings.html">الشاليهات</a></li>
+        <li><a href="#steps">كيف نعمل</a></li>
+        <li><a href="#track-booking-sec">متابعة حجزك 🧾</a></li>
+      </ul>
+      <a href="listings.html" class="nav-cta">استكشف العروض ✨</a>
+    </nav>
+  </div>
+
+  <!-- القسم الرئيسي (Hero Section) -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="badge-glow">🌊 وجهتك الأولى لإجازة صيفية خيالية</div>
+      <h1>احجز شاليه أحلامك في <span>أرقى قرى مصر</span></h1>
+      <p class="lead">استمتع بإقامة فاخرة على البحر مباشرة في الساحل، السخنة، ومطروح بأفضل الأسعار وتأكيد فوري.</p>
+
+      <!-- شريط البحث الفاخر -->
+      <div class="hero-search">
+        <div class="search-group">
+          <label>الوجهة 📍</label>
+          <select id="home-filter-loc">
+            <option value="">كل المناطق</option>
+            <option value="الساحل الشمالي">الساحل الشمالي</option>
+            <option value="العين السخنة">العين السخنة</option>
+            <option value="الغردقة">الغردقة</option>
+            <option value="رأس الحكمة">رأس الحكمة</option>
+            <option value="مطروح">مطروح</option>
+          </select>
+        </div>
+
+        <div class="search-group">
+          <label>الإقامة 🏡</label>
+          <select id="home-filter-type">
+            <option value="">الجميع</option>
+            <option value="شاليه">شاليه فاخر</option>
+            <option value="فيلا">فيلا خاصة</option>
+          </select>
+        </div>
+
+        <div class="search-group">
+          <label>الميزانية / ليلة 💰</label>
+          <input type="number" id="home-filter-price" placeholder="مثال: 4000 ج.م">
+        </div>
+
+        <button class="hero-search-btn" onclick="searchFromHome()">بحث 🔍</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- قسم عرض الشاليهات المتاحة -->
+  <section class="section">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 40px;">
+      <div>
+        <h2 class="section-title">أحدث الشاليهات المتاحة 🏖️</h2>
+        <p class="section-subtitle">وحدات مختارة بعناية لإقامة لا تُنسى</p>
+      </div>
+      <a href="listings.html" style="color:var(--accent-gold); font-weight:800; text-decoration:none;">عرض الكل ←</a>
+    </div>
+
+    <!-- شبكة الشاليهات (تعبئة عبر main.js) -->
+    <div class="grid grid-dynamic"></div>
+  </section>
+
+  <!-- قسم كيف نعمل (#steps) -->
+  <section id="steps" class="section">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <h2 class="section-title">كيف نعمل؟ 🛠️</h2>
+      <p class="section-subtitle">احجز مكانك في 3 خطوات بسيطة للغاية</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">🔍</div>
+        <h3>1. اختر وجهتك</h3>
+        <p>استعرض قائمة واسعة من الشاليهات والفيلات المجهزة بالكامل مع صور حقيقية 100%.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-icon">📅</div>
+        <h3>2. حدد تاريخ الرحلة</h3>
+        <p>حدد أيّام إقامتك واستمتع بتوافر لحظي وسريع بدون انتظار لتأكيدات طويلة.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-icon">💳</div>
+        <h3>3. تأكيد وآمان</h3>
+        <p>ادفع بطريقتك المفضلة واستلم إيصال وتأكيد حجزك لتبدأ أجازتك بدون أي قلق.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم متابعة الحجز الجديد -->
+  <section id="track-booking-sec" class="section">
+    <div class="track-booking-wrapper">
+      <h2 class="section-title" style="margin-bottom:8px;">متابعة حالة الحجز 🔎</h2>
+      <p class="section-subtitle" style="max-width:500px; margin:0 auto;">تابع تفاصيل طلب حجزك واستعلم عن المبالغ المدفوعة والمتبقية بسهولة</p>
+
+      <div class="track-search-box">
+        <input type="text" id="track-input-id" placeholder="أدخل رقم الحجز الخاص بك (مثال: MSF-0000 أو ORD-123456)">
+        <button class="track-search-btn" onclick="trackBooking()">استعلام ✨</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- الفوتر (Footer) -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="brand">مصيفي<span>.</span></a>
+        <p class="footer-desc">المنصة الأحدث لحجز الشاليهات والعقارات المصيفية في مصر. نضمن لك تجربة حجز سلسة، آمنة ومريحة.</p>
+      </div>
+
+      <div>
+        <div class="footer-head">روابط سريعة</div>
+        <ul class="footer-links-list">
+          <li><a href="index.html">الرئيسية</a></li>
+          <li><a href="listings.html">الشاليهات المتاحة</a></li>
+          <li><a href="#steps">كيف نعمل</a></li>
+          <li><a href="#track-booking-sec">متابعة الحجز</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-head">تواصل معنا 📞</div>
+        <ul class="footer-links-list">
+          <li><a href="tel:19000">الخط الساخن: 19000</a></li>
+          <li><a href="mailto:info@mosaify.com">info@mosaify.com</a></li>
+          <li><a href="#">مصر، القاهرة</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      جميع الحقوق محفوظة © مصيفي 2026
+    </div>
+  </footer>
+
+  <!-- مودال عرض تفاصيل الحجز -->
+  <div class="modal-overlay" id="track-result-modal">
+    <div class="track-modal-card">
+      <div class="track-modal-header">
+        <h3>تفاصيل طلب الحجز 🧾</h3>
+        <button class="close-track-modal" onclick="closeTrackModal()">✕</button>
+      </div>
+
+      <div id="track-modal-body">
+        <!-- يتم ملء التفاصيل تلقائياً برمجياً -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // تفعيل زر Enter للاستعلام المباشر عن الحجز
+      const trackInput = document.getElementById('track-input-id');
+      if (trackInput) {
+        trackInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            trackBooking();
+          }
+        });
+      }
+    });
+
+    function searchFromHome() {
+      const loc = document.getElementById('home-filter-loc').value;
+      const type = document.getElementById('home-filter-type').value;
+      const price = document.getElementById('home-filter-price').value;
+
+      const params = new URLSearchParams();
+      if (loc) params.append('loc', loc);
+      if (type) params.append('type', type);
+      if (price) params.append('maxPrice', price);
+
+      window.location.href = `listings.html?${params.toString()}`;
+    }
+
+    // --- وظائف استعلام ومتابعة الحجز المطورة ---
+    function trackBooking() {
+      const input = document.getElementById('track-input-id');
+      const rawQuery = input.value.trim();
+
+      if (!rawQuery) {
+        alert('⚠️ يرجى إدخال رقم الحجز أولاً!');
+        return;
+      }
+
+      // تنظيف المدخلات (إزالة الهاشتاج والرموز والمسافات وتحويلها لحروف صغيرة)
+      const cleanQuery = rawQuery.replace(/[#\s]/g, '').toLowerCase();
+
+      // جلب الحجوزات من localStorage
+      const bookings = JSON.parse(localStorage.getItem('mosaify_bookings')) || [];
+      
+      // البحث المرن: يطابق المعرف سواء كان يحتوي على # أو بدونه أو جزء منه
+      const match = bookings.find(b => {
+        if (!b.id) return false;
+        const cleanId = String(b.id).replace(/[#\s]/g, '').toLowerCase();
+        return cleanId === cleanQuery || cleanId.includes(cleanQuery);
+      });
+
+      const modalBody = document.getElementById('track-modal-body');
+
+      if (!match) {
+        modalBody.innerHTML = `
+          <div style="text-align:center; padding: 20px 0;">
+            <div style="font-size: 45px; margin-bottom: 10px;">❌</div>
+            <h4 style="margin:0 0 8px; color:#ff5e36;">لم يتم العثور على الحجز</h4>
+            <p style="color:var(--text-dim); font-size:13.5px; margin:0;">تأكد من كتابة رقم الحجز الصحيح (مثال: MSF-0000 أو ORD-123456)</p>
+          </div>
+        `;
+      } else {
+        const paid = Number(match.paidAmount || match.totalPrice || 0);
+        const total = Number(match.totalPrice || 0);
+        const remaining = Math.max(0, total - paid);
+
+        let statusClass = 'pending';
+        let statusText = match.status || 'جديد ⏳';
+
+        if (match.status) {
+          if (match.status.includes('مؤكد') || match.status.includes('مقبول')) {
+            statusClass = 'accepted';
+            statusText = 'مؤكد ✅';
+          } else if (match.status.includes('ملغي') || match.status.includes('مرفوض')) {
+            statusClass = 'canceled';
+            statusText = 'ملغي ❌';
+          } else if (match.status.includes('انتظار')) {
+            statusClass = 'pending';
+            statusText = 'قيد الانتظار 🟡';
+          }
+        }
+
+        modalBody.innerHTML = `
+          <div class="track-detail-row">
+            <span class="track-detail-label">رقم الحجز:</span>
+            <span class="track-detail-val" style="color:var(--accent-gold);">${match.id.startsWith('#') ? match.id : '#' + match.id}</span>
+          </div>
+          <div class="track-detail-row">
+            <span class="track-detail-label">اسم العميل:</span>
+            <span class="track-detail-val">${match.customerName || '-'}</span>
+          </div>
+          <div class="track-detail-row">
+            <span class="track-detail-label">الوحدة / الشاليه:</span>
+            <span class="track-detail-val">${match.chaletTitle || 'شاليه'}</span>
+          </div>
+          <div class="track-detail-row">
+            <span class="track-detail-label">تاريخ الإقامة:</span>
+            <span class="track-detail-val" style="font-size:13px;">${match.checkIn || '-'} إلى ${match.checkOut || '-'}</span>
+          </div>
+          <div class="track-detail-row">
+            <span class="track-detail-label">المبلغ المدفوع:</span>
+            <span class="track-detail-val" style="color:var(--accent-green);">${paid.toLocaleString()} ج.م</span>
+          </div>
+          <div class="track-detail-row">
+            <span class="track-detail-label">المتبقي عند الاستلام:</span>
+            <span class="track-detail-val" style="color:#e74c3c;">${remaining > 0 ? remaining.toLocaleString() + ' ج.م' : '0 ج.م'}</span>
+          </div>
+          <div class="track-detail-row" style="border-top:1px dashed rgba(255,255,255,0.1); padding-top:10px; margin-top:10px;">
+            <span class="track-detail-label">إجمالي التكلفة:</span>
+            <span class="track-detail-val" style="font-size:16px;">${total.toLocaleString()} ج.م</span>
+          </div>
+          <div class="track-detail-row" style="align-items:center; margin-top:15px;">
+            <span class="track-detail-label">حالة الطلب:</span>
+            <span class="status-badge ${statusClass}">${statusText}</span>
+          </div>
+        `;
+      }
+
+      document.getElementById('track-result-modal').classList.add('active');
+    }
+
+    function closeTrackModal() {
+      document.getElementById('track-result-modal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مصيفي | تأكيد الحجز والدفع</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    .checkout-page-container { padding-top: 50px; padding-bottom: 80px; }
+    .checkout-title-box { margin-bottom: 30px; }
+    .checkout-title-box h1 { font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+    .checkout-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 30px; align-items: start; }
+    .summary-card, .form-card { background: var(--bg-card, #121c18); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+    .card-title { font-size: 20px; font-weight: 800; color: var(--accent-teal, #20b2aa); margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 12px; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 15px; color: rgba(255, 255, 255, 0.7); }
+    .summary-row strong { color: #fff; font-weight: 700; }
+    .summary-row.payment-type-badge { background: rgba(32, 178, 170, 0.1); border-radius: 10px; padding: 10px 14px; margin: 10px 0; border: 1px dashed rgba(32, 178, 170, 0.3); }
+    .summary-row.total { border-bottom: none; border-top: 2px dashed rgba(255, 255, 255, 0.15); margin-top: 15px; padding-top: 18px; font-size: 18px; }
+    .summary-row.total strong { color: #d9a441; font-size: 22px; font-weight: 900; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, 0.85); }
+    .form-group input[type="text"], 
+    .form-group input[type="tel"],
+    .form-group input[type="file"] { 
+      width: 100%; 
+      padding: 14px 16px; 
+      background: rgba(255, 255, 255, 0.05); 
+      border: 1px solid rgba(255, 255, 255, 0.15); 
+      border-radius: 12px; 
+      color: #fff; 
+      font-family: inherit; 
+      font-size: 15px; 
+      outline: none; 
+      transition: border 0.2s ease; 
+    }
+    .form-group input[type="file"] { padding: 10px; cursor: pointer; }
+    .form-group input:focus { border-color: var(--accent-teal, #20b2aa); background: rgba(255, 255, 255, 0.08); }
+    
+    .instapay-box { background: linear-gradient(135deg, rgba(138, 43, 226, 0.12) 0%, rgba(74, 0, 224, 0.18) 100%); border: 1.5px solid rgba(138, 43, 226, 0.5); border-radius: 16px; padding: 20px; margin-top: 10px; margin-bottom: 25px; text-align: center; }
+    .instapay-header { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 17px; font-weight: 800; color: #b16cff; margin-bottom: 12px; }
+    .copy-amount-wrapper { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .amount-to-copy { font-size: 24px; font-weight: 900; color: var(--accent-gold, #d9a441); }
+    .copy-btn { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.15); padding: 8px 15px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.2); }
+    .copy-btn.copied { background: #20b2aa; color: #0d1512; border-color: #20b2aa; }
+    .instapay-btn-link { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #8a2be2 0%, #4a00e0 100%); color: #fff !important; font-size: 16px; font-weight: 800; padding: 14px 20px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 15px rgba(74, 0, 224, 0.35); transition: transform 0.2s, box-shadow 0.2s; }
+    .instapay-btn-link:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74, 0, 224, 0.5); }
+    
+    .submit-checkout-btn { width: 100%; padding: 16px; background: #20b2aa; color: #0d1512; border: none; border-radius: 12px; font-family: inherit; font-size: 17px; font-weight: 800; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+    .submit-checkout-btn:hover { background: #26c4bb; transform: translateY(-2px); }
+    @media (max-width: 850px) { .checkout-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand">مصيفي<span class="dot">.</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="listings.html">الشاليهات</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container checkout-page-container">
+    <div class="checkout-title-box">
+      <h1>تأكيد الحجز والدفع 💳</h1>
+      <p style="color: rgba(255,255,255,0.6); font-size: 15px;">أكمل بياناتك، حول عبر InstaPay ثم أرفق إيصال التحويل لإنهاء الحجز</p>
+    </div>
+
+    <div class="checkout-grid">
+      <!-- ملخص الحجز -->
+      <div class="summary-card">
+        <h3 class="card-title">ملخص الحجز 📝</h3>
+        <div class="summary-row"><span>الوحدة:</span><strong id="chalet-name">جاري التحميل...</strong></div>
+        <div class="summary-row"><span>تاريخ الوصول:</span><strong id="summary-checkin">-</strong></div>
+        <div class="summary-row"><span>تاريخ المغادرة:</span><strong id="summary-checkout">-</strong></div>
+        <div class="summary-row"><span>عدد الأفراد:</span><strong id="summary-guests">1 فرد</strong></div>
+        <div class="summary-row"><span>المدة:</span><strong id="summary-nights">0 ليلة</strong></div>
+        
+        <div class="summary-row payment-type-badge">
+          <span>نظام الدفع المختار:</span>
+          <strong id="summary-payment-type" style="color: #20b2aa;">حجز كامل</strong>
+        </div>
+
+        <div class="summary-row"><span>إجمالي قيمة الإقامة:</span><strong id="summary-total-stay">0 ج.م</strong></div>
+        <div class="summary-row" id="summary-remaining-row" style="display: none;">
+          <span>المتبقي عند الاستلام:</span>
+          <strong id="summary-remaining-price" style="color: #d9a441;">0 ج.م</strong>
+        </div>
+
+        <div class="summary-row total">
+          <span id="summary-pay-label">المطلوب سداده الآن:</span>
+          <strong id="summary-total-price">0 ج.م</strong>
+        </div>
+      </div>
+
+      <!-- نموذج البيانات والدفع -->
+      <div class="form-card">
+        <h3 class="card-title" style="color: #fff;">بيانات الحجز والإيصال ✍️</h3>
+
+        <!-- Hidden Iframe لمنع إعادة التوجيه الخارجي -->
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+        <form id="checkout-form" 
+              action="https://formsubmit.co/3bdallah7assan123@gmail.com" 
+              method="POST" 
+              enctype="multipart/form-data" 
+              target="hidden_iframe" 
+              onsubmit="handleCheckout(event)">
+          
+          <input type="hidden" name="_subject" id="email-subject" value="طلب حجز جديد — مصيفي">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+
+          <input type="hidden" name="الوحدة" id="hidden-chalet-title">
+          <input type="hidden" name="تاريخ الوصول" id="hidden-checkin">
+          <input type="hidden" name="تاريخ المغادرة" id="hidden-checkout">
+          <input type="hidden" name="عدد الأفراد" id="hidden-guests">
+          <input type="hidden" name="نوع الدفع" id="hidden-payment-type">
+          <input type="hidden" name="إجمالي الإقامة" id="hidden-total-stay">
+          <input type="hidden" name="المبلغ المطلوب سداده الآن" id="hidden-payable">
+          <input type="hidden" name="المتبقي عند الاستلام" id="hidden-remaining">
+          <input type="hidden" name="رقم الحجز" id="hidden-booking-id">
+
+          <div class="form-group">
+            <label>الاسم بالكامل</label>
+            <input type="text" name="اسم العميل" id="client-name" placeholder="أدخل اسمك الثلاثي" required>
+          </div>
+
+          <div class="form-group">
+            <label>رقم الهاتف / الواتساب (11 رقم)</label>
+            <input type="tel" 
+                   name="رقم الهاتف" 
+                   id="client-phone" 
+                   placeholder="010XXXXXXXX" 
+                   maxlength="11" 
+                   pattern="[0-9]{11}" 
+                   title="يرجى إدخال رقم هاتف مكون من 11 رقم فقط" 
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')" 
+                   required>
+          </div>
+
+          <div class="instapay-box">
+            <div class="instapay-header"><span>⚡ الدفع الفوري عبر InstaPay</span></div>
+            <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 10px;">1. انسخ المبلغ المطلوب تحويله الآن:</p>
+            <div class="copy-amount-wrapper">
+              <span class="amount-to-copy" id="amount-to-copy-display">0</span>
+              <button type="button" class="copy-btn" id="copy-gravity-btn" onclick="copyAmount()">نسخ المبلغ</button>
+            </div>
+            <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin: 15px 0 10px;">2. اضغط للتحويل المباشر (واعمل "لصق" للمبلغ):</p>
+            <a id="instapay-link" href="https://ipn.eg/S/abdallah.tarabishi500/instapay/5GIIJQ" target="_blank" class="instapay-btn-link">
+              <span>فتح InstaPay والتحويل</span> ↗
+            </a>
+          </div>
+
+          <div class="form-group">
+            <label>إرفاق سكرين شوت الإيصال (صورة التحويل)</label>
+            <input type="file" name="إيصال التحويل" id="payment-receipt" accept="image/*" required>
+            <small style="color: rgba(255,255,255,0.5); font-size: 12px; margin-top: 4px; display: block;">يرجى ارفاق صورة واضحة لإيصال التحويل لسرعة التأكيد</small>
+          </div>
+
+          <button type="submit" class="submit-checkout-btn" id="submit-btn">تأكيد وطلب الحجز الآن ←</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    const INSTAPAY_BASE_URL = "https://ipn.eg/S/abdallah.tarabishi500/instapay/5GIIJQ";
+    let currentChaletId = null;
+    let totalStayPrice = 0;
+    let payableAmount = 0;
+    let remainingAmount = 0;
+    let selectedChaletTitle = "";
+    let generatedBookingId = "";
+    let guestsCount = 1;
+    let paymentType = "full";
+    let paymentTypeText = "حجز كامل";
+    let checkinDate = "غير محدد";
+    let checkoutDate = "غير محدد";
+
+    function loadCheckoutData() {
+      const urlParams = new URLSearchParams(window.location.search);
+      currentChaletId = urlParams.get('id');
+      checkinDate = urlParams.get('checkin') || 'غير محدد';
+      checkoutDate = urlParams.get('checkout') || 'غير محدد';
+      const paramTotal = urlParams.get('total');
+      const paramPayable = urlParams.get('payable');
+      
+      // استيراد نوع الدفع وعدد الأفراد
+      paymentType = urlParams.get('payment_type') || 'full';
+      paymentTypeText = paymentType === 'deposit' ? 'عربون (ليلة واحدة)' : 'حجز كامل';
+      guestsCount = urlParams.get('guests') || 1;
+
+      generatedBookingId = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+
+      const chalets = JSON.parse(localStorage.getItem('mosaify_chalets')) || [];
+      const chalet = chalets.find(c => String(c.id) === String(currentChaletId));
+
+      selectedChaletTitle = chalet ? chalet.title : "شاليه ساحلي مميز";
+      document.getElementById('chalet-name').innerText = selectedChaletTitle;
+      document.getElementById('summary-guests').innerText = `${guestsCount} أفراد`;
+      document.getElementById('summary-payment-type').innerText = paymentTypeText;
+
+      if (checkinDate !== 'غير محدد' && checkoutDate !== 'غير محدد') {
+        document.getElementById('summary-checkin').innerText = checkinDate;
+        document.getElementById('summary-checkout').innerText = checkoutDate;
+
+        const d1 = new Date(checkinDate + 'T00:00:00');
+        const d2 = new Date(checkoutDate + 'T00:00:00');
+        const diffDays = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24)) || 1;
+        document.getElementById('summary-nights').innerText = `${diffDays} ليالي`;
+
+        totalStayPrice = paramTotal && Number(paramTotal) > 0 ? Number(paramTotal) : (chalet && chalet.price ? diffDays * Number(chalet.price) : 3700);
+      } else {
+        document.getElementById('summary-checkin').innerText = "غير محدد";
+        document.getElementById('summary-checkout').innerText = "غير محدد";
+        totalStayPrice = paramTotal ? Number(paramTotal) : 3700;
+      }
+
+      // تحديد المبلغ المطلوب سداده الآن والحسابات
+      if (paymentType === 'deposit') {
+        payableAmount = paramPayable ? Number(paramPayable) : (chalet ? Number(chalet.price) : totalStayPrice);
+        remainingAmount = totalStayPrice - payableAmount;
+        if (remainingAmount < 0) remainingAmount = 0;
+
+        document.getElementById('summary-pay-label').innerText = "العربون المطلوب سداده الآن:";
+        document.getElementById('summary-remaining-row').style.display = "flex";
+        document.getElementById('summary-remaining-price').innerText = `${remainingAmount.toLocaleString()} ج.م`;
+      } else {
+        payableAmount = paramPayable ? Number(paramPayable) : totalStayPrice;
+        remainingAmount = 0;
+        document.getElementById('summary-pay-label').innerText = "المطلوب سداده بالكامل:";
+        document.getElementById('summary-remaining-row').style.display = "none";
+      }
+
+      document.getElementById('summary-total-stay').innerText = `${totalStayPrice.toLocaleString()} ج.م`;
+      document.getElementById('summary-total-price').innerText = `${payableAmount.toLocaleString()} ج.م`;
+      document.getElementById('amount-to-copy-display').innerText = payableAmount.toLocaleString();
+
+      // ملء الحقول المخفية للـ FormSubmit
+      document.getElementById('hidden-chalet-title').value = selectedChaletTitle;
+      document.getElementById('hidden-checkin').value = checkinDate;
+      document.getElementById('hidden-checkout').value = checkoutDate;
+      document.getElementById('hidden-guests').value = `${guestsCount} أفراد`;
+      document.getElementById('hidden-payment-type').value = paymentTypeText;
+      document.getElementById('hidden-total-stay').value = `${totalStayPrice.toLocaleString()} ج.م`;
+      document.getElementById('hidden-payable').value = `${payableAmount.toLocaleString()} ج.م`;
+      document.getElementById('hidden-remaining').value = `${remainingAmount.toLocaleString()} ج.م`;
+      document.getElementById('hidden-booking-id').value = generatedBookingId;
+      document.getElementById('email-subject').value = `حجز جديد (${paymentTypeText}) #${generatedBookingId} — ${selectedChaletTitle}`;
+    }
+
+    function copyAmount() {
+      const plainNumber = payableAmount.toString(); 
+      navigator.clipboard.writeText(plainNumber).then(() => {
+        const copyBtn = document.getElementById('copy-gravity-btn');
+        copyBtn.innerText = "تم النسخ! ✓";
+        copyBtn.classList.add('copied');
+        setTimeout(() => {
+          copyBtn.innerText = "نسخ المبلغ";
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function handleCheckout(event) {
+      event.preventDefault();
+      const formElement = document.getElementById('checkout-form');
+      const submitBtn = document.getElementById('submit-btn');
+
+      const name = document.getElementById('client-name').value;
+      const phone = document.getElementById('client-phone').value;
+      const receiptInput = document.getElementById('payment-receipt');
+
+      // التحقق من رقم التليفون (11 رقم)
+      if (!/^[0-9]{11}$/.test(phone)) {
+        alert('برجاء كتابة رقم هاتف صحيح مكون من 11 رقم بدون حروف أو رموز!');
+        return;
+      }
+
+      if (!name || receiptInput.files.length === 0) {
+        alert('يرجى كتابة الاسم وإرفاق سكرين شوت التحويل!');
+        return;
+      }
+
+      // تغيير شكل الزر لإعلام العميل بجاري الإرسال
+      submitBtn.innerText = "جاري إرسال الطلب والحفظ... ⏳";
+      submitBtn.disabled = true;
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const file = receiptInput.files[0];
+
+      const saveAndSubmit = (receiptBase64 = '') => {
+        // تجهيز كائن الحجز متوافق 100% مع صفحة property.html ولوحة الأدمن
+        const newBooking = {
+          id: generatedBookingId,
+          chaletId: currentChaletId,
+          propertyId: currentChaletId,
+          chaletTitle: selectedChaletTitle,
+          customerName: name,
+          customerPhone: phone,
+          guests: guestsCount,
+          checkin: checkinDate,
+          checkout: checkoutDate,
+          checkIn: checkinDate,
+          checkOut: checkoutDate,
+          paymentType: paymentTypeText,
+          totalPrice: payableAmount,
+          totalStayPrice: totalStayPrice,
+          remainingAmount: remainingAmount,
+          receiptImage: receiptBase64,
+          status: 'جديد ⏳',
+          createdAt: new Date().toLocaleString('ar-EG')
+        };
+
+        // حفظ الحجز في LocalStorage
+        const existingBookings = JSON.parse(localStorage.getItem('mosaify_bookings')) || [];
+        existingBookings.unshift(newBooking);
+        localStorage.setItem('mosaify_bookings', JSON.stringify(existingBookings));
+        localStorage.setItem('last_booking_details', JSON.stringify(newBooking));
+
+        // 1. إرسال البيانات برمجياً إلى FormSubmit
+        formElement.submit();
+
+        // 2. التوجيه لصفحة الشكر بعد إتاحة الفرصة لإرسال الإيميل
+        setTimeout(() => {
+          window.location.href = `thankyou.html?${urlParams.toString()}&name=${encodeURIComponent(name)}&bookingId=${generatedBookingId}`;
+        }, 1200);
+      };
+
+      // تحويل الصورة لـ Base64 ثم الحفظ والإرسال
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          saveAndSubmit(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        saveAndSubmit('');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCheckoutData);
+  </script>
+</body>
+</html>

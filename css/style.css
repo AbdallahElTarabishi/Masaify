@@ -1,0 +1,708 @@
+/* =========================================================
+   style.css — الهوية البصرية الحديثة لموقع "مصيفي" (Ultra-Modern UI)
+   تصميم فاخر يعتمد على نظام Glassmorphism والـ Dark Elegant Vibe
+   ========================================================= */
+
+:root {
+  --bg-dark: #071516;
+  --bg-surface: #0e2425;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --card-border: rgba(255, 255, 255, 0.1);
+  
+  --accent-gold: #ffb703;
+  --accent-coral: #ff5e36;
+  --accent-teal: #00b4d8;
+  --sea-deep: #00b4d8; /* تم توحيد الدرجة لتتوافق مع عناصر الصفحة */
+  --coral: #ff5e36;
+  --gold: #ffb703;
+  --ink: #ffffff;
+  
+  --text-white: #ffffff;
+  --text-muted: #94a3b8;
+  --text-dark: #1e293b;
+
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+
+  --shadow-glow: 0 10px 30px rgba(0, 180, 216, 0.15);
+  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.35);
+
+  --font-body: "Tajawal", "Tahoma", sans-serif;
+  --font-display: "Tajawal", sans-serif;
+}
+
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  direction: rtl;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===================== NAVBAR الشفاف العائم ===================== */
+.navbar {
+  position: sticky;
+  top: 16px;
+  z-index: 1000;
+  background: rgba(14, 36, 37, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 50px;
+  margin: 0 auto;
+  max-width: 1150px;
+  box-shadow: var(--shadow-card);
+}
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.brand {
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.brand .dot, .brand span {
+  color: var(--accent-gold);
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--accent-gold);
+}
+
+.nav-cta {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #fb8500 100%);
+  color: #000;
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 14px;
+  box-shadow: 0 0 15px rgba(255, 183, 3, 0.3);
+}
+
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 183, 3, 0.5);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  font-size: 26px;
+  color: #fff;
+}
+
+/* ===================== HERO SECTION ===================== */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 20%, #174244 0%, var(--bg-dark) 75%);
+  padding: 120px 0 80px;
+  text-align: center;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 3;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  color: var(--accent-teal);
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 8px 20px;
+  border-radius: 30px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.hero h1 {
+  font-size: clamp(36px, 6vw, 60px);
+  font-weight: 900;
+  line-height: 1.2;
+  margin: 0 0 20px;
+  background: linear-gradient(to bottom, #ffffff, #cbd5e1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero h1 span {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-coral));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p.lead {
+  max-width: 620px;
+  margin: 0 auto 40px;
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+/* ===================== شريط البحث العائم ===================== */
+.search-card, .hero-search {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.field, .search-field, .search-group {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.field label, .search-field label, .search-group label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent-gold);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.field select, .field input,
+.search-field select, .search-field input,
+.search-group select, .search-group input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  outline: none;
+}
+
+.field select option, .search-field select option {
+  background: var(--bg-surface);
+  color: #fff;
+}
+
+.search-btn, .hero-search-btn {
+  background: linear-gradient(135deg, var(--accent-coral) 0%, #d62828 100%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  border-radius: var(--radius-md);
+  padding: 14px 32px;
+  box-shadow: 0 10px 20px rgba(255, 94, 54, 0.35);
+}
+
+.search-btn:hover, .hero-search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(255, 94, 54, 0.5);
+}
+
+/* ===================== الأقسام والكروت ===================== */
+.section { padding: 60px 0; }
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+.section-head h2 {
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 6px;
+}
+
+.section-head p { margin: 0; color: var(--text-muted); font-size: 15px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.card-media {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background-color: var(--bg-surface);
+}
+
+.card-media img, .card-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.card-media .type-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(14, 36, 37, 0.85);
+  backdrop-filter: blur(6px);
+  color: var(--accent-gold);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 30px;
+  border: 1px solid var(--card-border);
+}
+
+.card-body { 
+  padding: 20px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+  flex: 1; 
+}
+
+.card-title { font-weight: 800; font-size: 18px; color: #fff; }
+.card-rating { font-size: 13px; font-weight: 700; color: var(--accent-gold); }
+.card-loc { font-size: 13.5px; color: var(--text-muted); }
+
+.card-meta {
+  display: flex; 
+  gap: 14px; 
+  font-size: 13px; 
+  color: var(--text-muted);
+  border-top: 1px solid var(--card-border);
+  padding-top: 12px;
+  margin-top: auto;
+}
+
+.card-foot {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  margin-top: 8px;
+}
+
+.price { font-weight: 900; color: #fff; font-size: 18px; }
+.price small { font-weight: 500; font-size: 12px; color: var(--text-muted); }
+
+.card-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 30px;
+  border: 1px solid var(--card-border);
+}
+
+.card-btn:hover { 
+  background: var(--accent-gold); 
+  color: #000;
+}
+
+/* ===================== صفحة التفاصيل (PROPERTY DETAILS PAGE) ===================== */
+.property-detail-page {
+  padding: 40px 0 80px;
+}
+
+.gallery-card {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-card);
+}
+
+.property-hero-box {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.property-hero-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.25s ease-in-out;
+}
+
+/* أزرار السلايدر الزجاجية والتنقل */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(7, 21, 22, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.carousel-btn:hover {
+  background: var(--accent-gold);
+  color: #000;
+  border-color: var(--accent-gold);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn { left: 20px; }
+.next-btn { right: 20px; }
+
+.carousel-counter {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(7, 21, 22, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* شبكة المصغرات السفلية */
+.thumbnails-grid {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.thumbnails-grid::-webkit-scrollbar {
+  height: 6px;
+}
+.thumbnails-grid::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+
+.thumb-card {
+  width: 100px;
+  height: 75px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.thumb-card.active, .thumb-card:hover {
+  opacity: 1;
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+}
+
+.thumb-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* تخطيط الصفحة الرئيسي وتفاصيل العقار */
+.property-layout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.main-info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  box-shadow: var(--shadow-card);
+}
+
+.property-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  font-size: 14.5px;
+  color: var(--text-muted);
+}
+
+.property-stats strong {
+  color: #fff;
+}
+
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.amenity-badge {
+  background: rgba(0, 180, 216, 0.12);
+  border: 1px solid rgba(0, 180, 216, 0.3);
+  color: var(--accent-teal);
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 30px;
+}
+
+/* كارت الحجز الجانبي */
+.booking-card {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 100px;
+}
+
+.price-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.price-tag .amount {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent-gold);
+}
+
+.price-tag .unit {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.booking-form .field input[type="date"] {
+  color-scheme: dark;
+}
+
+.total-calc-box {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed var(--accent-gold);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+  display: none;
+}
+
+.total-calc-box div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.total-calc-box div:last-child {
+  margin-bottom: 0;
+  font-weight: 800;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 6px;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, var(--accent-coral) 0%, #d62828 100%);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  width: 100%;
+  margin-top: 10px;
+  box-shadow: 0 10px 20px rgba(255, 94, 54, 0.35);
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(255, 94, 54, 0.5);
+}
+
+/* ===================== قسم الخطوات ===================== */
+.steps, .steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 40px;
+}
+
+.step, .step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 36px 26px;
+  text-align: center;
+}
+
+.step:hover, .step-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-teal);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.step h3, .step-card h3 { 
+  margin: 14px 0 10px; 
+  color: #fff; 
+  font-size: 20px; 
+  font-weight: 800;
+}
+
+.step p, .step-card p { 
+  margin: 0; 
+  font-size: 14.5px; 
+  color: var(--text-muted); 
+  line-height: 1.6;
+}
+
+/* ===================== الفوتر الفاخر ===================== */
+.footer {
+  background: #030a0a;
+  border-top: 1px solid var(--card-border);
+  color: var(--text-muted);
+  padding: 60px 0 30px;
+  margin-top: 80px;
+}
+
+.footer .container, .footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-col h4 { font-size: 17px; color: #fff; margin: 0 0 16px; font-weight: 800; }
+.footer-col ul li { margin-bottom: 10px; font-size: 14px; }
+.footer-col ul li a:hover { color: var(--accent-gold); }
+
+.footer-bottom, .footer-bottom-bar {
+  text-align: center;
+  padding-top: 24px;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===================== التجاوب (Responsive) ===================== */
+@media (max-width: 900px) {
+  .grid, .steps, .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .search-card, .hero-search { grid-template-columns: 1fr; gap: 10px; }
+  .footer .container, .footer-grid { grid-template-columns: 1fr; }
+  .navbar { margin: 0 16px; }
+  .property-layout-grid { grid-template-columns: 1fr; }
+  .property-hero-box { height: 320px; }
+  .booking-card { position: static; }
+}
+
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .grid, .steps, .steps-grid { grid-template-columns: 1fr; }
+  .property-hero-box { height: 260px; }
+  .carousel-btn { width: 38px; height: 38px; font-size: 16px; }
+}
