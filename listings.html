@@ -337,28 +337,7 @@
     let maxChaletPrice = 10000;
 
     function fetchAllProperties() {
-      let list = [];
-
-      const localData = localStorage.getItem('mosaify_chalets') || 
-                        localStorage.getItem('properties') || 
-                        localStorage.getItem('chalets');
-      if (localData) {
-        try { list = JSON.parse(localData); } catch(e){}
-      }
-
-      if (list.length === 0 && typeof getStoredProperties === 'function') {
-        try {
-          const res = getStoredProperties();
-          if (Array.isArray(res) && res.length > 0) list = res;
-        } catch(e){}
-      }
-
-      if (list.length === 0) {
-        if (typeof properties !== 'undefined') list = properties;
-        else if (typeof chalets !== 'undefined') list = chalets;
-      }
-
-      return list;
+      return getChalets();
     }
 
     function cleanNumber(val) {

@@ -250,7 +250,7 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
 
   <!-- السكريبتات -->
-  <script src="js/main.js"></script>
+  <script src="js/data.js"></script>
   <script>
     let currentChaletId = null;
     let currentImageIndex = 0;
@@ -258,22 +258,19 @@
     let checkinPicker = null;
     let checkoutPicker = null;
 
-    // دالة جلب الشاليهات من الـ LocalStorage مباشرة للربط مع الأدمن
+    // دالة جلب الشاليهات من data.js
     function fetchAllChalets() {
-      if (typeof getChalets === 'function') {
-        return getChalets();
-      }
-      return JSON.parse(localStorage.getItem('mosaify_chalets')) || [];
+      return getChalets();
     }
 
-    // 🆕 دالة جلب الفترات المحجوزة والمقبولة للشاليه الحالي وتفكيكها لأيام مقفولة
+    // دالة جلب الفترات المحجوزة والمقبولة للشاليه الحالي
     function getBookedDatesForChalet(chaletId) {
-      const allBookings = JSON.parse(localStorage.getItem('mosaify_bookings') || '[]');
+      const allBookings = getBookings();
       const disabledDates = [];
 
       allBookings.forEach(booking => {
-        // فحص مطابقة الشاليه وحالة الحجز (مقبول / active / approved)
-        const isSameChalet = String(booking.chaletId || booking.propertyId || booking.id) === String(chaletId);
+        // ✅ المقارنة الصحيحة: booking.chaletId (وليس booking.id)
+        const isSameChalet = String(booking.chaletId || booking.propertyId || '') === String(chaletId);
         const status = (booking.status || '').toLowerCase();
         const isActiveOrApproved = status === 'approved' || status === 'active' || status === 'مقبول' || status === 'جاري الإقامة';
 

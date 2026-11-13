@@ -10,13 +10,157 @@
     .checkout-page-container { padding-top: 30px; padding-bottom: 60px; }
     .checkout-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; }
     @media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } }
-    .summary-card, .form-card { background: #121c18; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 20px; }
-    .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+
+    .summary-card, .form-card {
+      background: #121c18;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+    }
+    .summary-row strong { color: #fff; }
+    .summary-row:last-child { border-bottom: none; }
+
     .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; margin-bottom: 6px; font-size: 14px; color: rgba(255,255,255,0.85); }
-    .form-group input { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #fff; box-sizing: border-box; }
-    .submit-btn { width: 100%; padding: 15px; background: #20b2aa; color: #0d1512; border: none; border-radius: 10px; font-size: 17px; font-weight: 800; cursor: pointer; margin-top: 10px; }
-    .booking-code-badge { background: rgba(32, 178, 170, 0.15); color: #20b2aa; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-family: monospace; }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      color: #fff;
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #20b2aa;
+      box-shadow: 0 0 0 3px rgba(32,178,170,0.15);
+    }
+
+    .form-group select option { background: #121c18; color: #fff; }
+
+    /* رفع الإيصال */
+    .receipt-upload-box {
+      border: 2px dashed rgba(32,178,170,0.4);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      background: rgba(32,178,170,0.04);
+    }
+    .receipt-upload-box:hover {
+      border-color: #20b2aa;
+      background: rgba(32,178,170,0.08);
+    }
+    .receipt-upload-box input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .receipt-upload-icon { font-size: 30px; margin-bottom: 8px; }
+    .receipt-upload-text { font-size: 13px; color: rgba(255,255,255,0.6); }
+    .receipt-upload-text strong { color: #20b2aa; }
+    #receipt-preview {
+      margin-top: 12px;
+      width: 100%;
+      max-height: 160px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: none;
+    }
+
+    /* payment type selector */
+    .pay-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 6px; }
+    .pay-type-option { position: relative; }
+    .pay-type-option input[type="radio"] { position: absolute; opacity: 0; }
+    .pay-type-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .pay-type-option input:checked + .pay-type-label {
+      border-color: #20b2aa;
+      background: rgba(32,178,170,0.15);
+      box-shadow: 0 0 10px rgba(32,178,170,0.2);
+    }
+    .pay-type-label .lbl-title { font-size: 14px; font-weight: 800; color: #fff; }
+    .pay-type-label .lbl-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: #20b2aa;
+      color: #0d1512;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.25s;
+      font-family: 'Tajawal', sans-serif;
+    }
+    .submit-btn:hover { background: #18978f; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .booking-code-badge {
+      background: rgba(32, 178, 170, 0.15);
+      color: #20b2aa;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-family: monospace;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+      margin: 16px 0;
+    }
+
+    .total-highlight {
+      background: rgba(217,164,65,0.1);
+      border: 1px solid rgba(217,164,65,0.3);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0;
+    }
+    .total-highlight span { font-size: 14px; color: rgba(255,255,255,0.8); }
+    .total-highlight strong { font-size: 20px; color: #d9a441; font-weight: 900; }
   </style>
 </head>
 <body>
@@ -30,21 +174,34 @@
   <main class="checkout-page-container container">
     <div style="margin-bottom:20px;">
       <h1 style="font-size:24px; color:#fff;">إتمام تأكيد الحجز 💳</h1>
+      <p style="color:rgba(255,255,255,0.5); font-size:14px; margin:4px 0 0;">يرجى إكمال البيانات لتأكيد حجزك</p>
     </div>
 
     <div class="checkout-grid">
+
+      <!-- ملخص الحجز -->
       <div class="summary-card">
-        <h3 style="color:#20b2aa; margin-top:0;">ملخص تفاصيل الحجز</h3>
+        <h3 style="color:#20b2aa; margin-top:0; font-size:17px;">ملخص تفاصيل الحجز 🧾</h3>
         <div class="summary-row"><span>كود الحجز:</span> <strong id="generated-booking-code" class="booking-code-badge">جاري التوليد...</strong></div>
         <div class="summary-row"><span>اسم الشاليه:</span> <strong id="sum-title">-</strong></div>
         <div class="summary-row"><span>تاريخ الوصول:</span> <strong id="sum-checkin">-</strong></div>
         <div class="summary-row"><span>تاريخ المغادرة:</span> <strong id="sum-checkout">-</strong></div>
         <div class="summary-row"><span>عدد الأفراد:</span> <strong id="sum-guests">1</strong></div>
-        <div class="summary-row"><span>المبلغ المطلوب:</span> <strong id="sum-payable" style="color:#d9a441; font-size:18px;">0 ج.م</strong></div>
+        <div class="summary-row"><span>عدد الليالي:</span> <strong id="sum-nights" style="color:#20b2aa;">-</strong></div>
+        <hr class="divider">
+        <div class="summary-row"><span>إجمالي تكلفة الإقامة:</span> <strong id="sum-total" style="color:#d9a441;">0 ج.م</strong></div>
+        <div id="deposit-row" class="summary-row" style="display:none;"><span>المتبقي عند الوصول:</span> <strong id="sum-remaining" style="color:#ff5e36;">0 ج.م</strong></div>
+        <div class="total-highlight">
+          <span>المطلوب دفعه الآن:</span>
+          <strong id="sum-payable">0 ج.م</strong>
+        </div>
       </div>
 
+      <!-- فورم البيانات -->
       <div class="form-card">
+        <h3 style="color:#fff; margin-top:0; font-size:17px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:18px;">بيانات العميل</h3>
         <form id="checkout-form">
+
           <div class="form-group">
             <label>الاسم بالكامل *</label>
             <input type="text" id="client-name" required placeholder="أدخل اسمك الثلاثي">
@@ -52,85 +209,214 @@
 
           <div class="form-group">
             <label>رقم الهاتف (واتساب) *</label>
-            <input type="tel" id="client-phone" required placeholder="01xxxxxxxxx">
+            <input type="tel" id="client-phone" required placeholder="01xxxxxxxxx" pattern="[0-9]{10,11}">
+          </div>
+
+          <hr class="divider">
+
+          <!-- طريقة الدفع -->
+          <div class="form-group">
+            <label>طريقة الدفع *</label>
+            <div class="pay-type-grid">
+              <label class="pay-type-option">
+                <input type="radio" name="pay_type" value="full" id="pay-full" checked>
+                <div class="pay-type-label">
+                  <span class="lbl-title">💳 دفع بالكامل</span>
+                  <span class="lbl-sub">تسوية المبلغ كاملاً</span>
+                </div>
+              </label>
+              <label class="pay-type-option">
+                <input type="radio" name="pay_type" value="deposit" id="pay-deposit">
+                <div class="pay-type-label">
+                  <span class="lbl-title">🔒 عربون (ليلة)</span>
+                  <span class="lbl-sub">دفع المتبقي عند الوصول</span>
+                </div>
+              </label>
+            </div>
+            <small style="color:rgba(255,255,255,0.4); font-size:12px;">* إذا اخترت العربون سيتم دفع ليلة واحدة فقط الآن</small>
+          </div>
+
+          <hr class="divider">
+
+          <!-- رفع إيصال التحويل -->
+          <div class="form-group">
+            <label>إيصال التحويل البنكي (اختياري) 📸</label>
+            <div class="receipt-upload-box" id="receipt-drop-zone">
+              <input type="file" id="receipt-file-input" accept="image/*">
+              <div class="receipt-upload-icon">📤</div>
+              <div class="receipt-upload-text"><strong>اضغط أو اسحب صورة الإيصال هنا</strong><br>PNG, JPG, WEBP مقبولة</div>
+              <img id="receipt-preview" src="" alt="معاينة الإيصال">
+            </div>
           </div>
 
           <button type="submit" class="submit-btn" id="submit-btn">تأكيد الحجز والإرسال ←</button>
         </form>
       </div>
+
     </div>
   </main>
 
-  <script src="js/main.js"></script>
+  <script src="js/data.js"></script>
   <script>
+    // ==========================================
+    // متغيرات الصفحة
+    // ==========================================
+    let receiptBase64 = '';
+    let randomCode = '';
+
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const chaletId = urlParams.get('id');
-      const checkin = urlParams.get('checkin') || urlParams.get('checkIn') || '-';
-      const checkout = urlParams.get('checkout') || urlParams.get('checkOut') || '-';
-      const guests = urlParams.get('guests') || '1';
-      const total = urlParams.get('total') || '0';
-      const payable = urlParams.get('payable') || total;
-      const payType = urlParams.get('payment_type') === 'deposit' ? 'عربون' : 'كامل';
+      const chaletId   = urlParams.get('id');
+      const checkin    = urlParams.get('checkin')  || '-';
+      const checkout   = urlParams.get('checkout') || '-';
+      const guests     = urlParams.get('guests')   || '1';
+      const totalParam = Number(urlParams.get('total'))   || 0;
+      const payable    = Number(urlParams.get('payable')) || totalParam;
 
       // توليد كود حجز فريد
-      const randomCode = 'MSF-' + Math.floor(1000 + Math.random() * 9000);
+      randomCode = 'MSF-' + String(Math.floor(1000 + Math.random() * 9000));
       document.getElementById('generated-booking-code').innerText = randomCode;
 
-      const allChalets = JSON.parse(localStorage.getItem('mosaify_chalets')) || [];
-      const currentChalet = allChalets.find(c => String(c.id) === String(chaletId)) || { title: 'شاليه مصيفي' };
+      // جلب اسم الشاليه
+      const allChalets = getChalets();
+      const currentChalet = allChalets.find(c => String(c.id) === String(chaletId)) || { title: 'شاليه مصيفي', price: 0 };
+      const pricePerNight = Number(currentChalet.price) || 0;
 
       document.getElementById('sum-title').innerText = currentChalet.title;
       document.getElementById('sum-checkin').innerText = checkin;
       document.getElementById('sum-checkout').innerText = checkout;
-      document.getElementById('sum-guests').innerText = guests;
-      document.getElementById('sum-payable').innerText = `${Number(payable).toLocaleString()} ج.م`;
+      document.getElementById('sum-guests').innerText = guests + ' أفراد';
 
-      const form = document.getElementById('checkout-form');
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
+      // حساب الليالي
+      let nights = 1;
+      if (checkin !== '-' && checkout !== '-') {
+        const d1 = new Date(checkin + 'T00:00:00');
+        const d2 = new Date(checkout + 'T00:00:00');
+        if (d2 > d1) nights = Math.ceil(Math.abs(d2 - d1) / 86400000);
+      }
+      document.getElementById('sum-nights').innerText = nights + ' ليالي';
 
-        const btn = document.getElementById('submit-btn');
-        btn.innerText = 'جاري التأكيد... ⏳';
-        btn.disabled = true;
+      const total = totalParam > 0 ? totalParam : pricePerNight * nights;
+      document.getElementById('sum-total').innerText   = total.toLocaleString() + ' ج.م';
+      document.getElementById('sum-payable').innerText = payable.toLocaleString() + ' ج.م';
 
-        const bookingData = {
-          id: randomCode,
-          code: randomCode,
-          bookingCode: randomCode,
-          chaletId: chaletId || currentChalet.id || '1',
-          chaletTitle: currentChalet.title || 'شاليه مصيفي',
-          customerName: document.getElementById('client-name').value,
-          name: document.getElementById('client-name').value,
-          customerPhone: document.getElementById('client-phone').value,
-          phone: document.getElementById('client-phone').value,
-          checkin: checkin,
-          checkIn: checkin,
-          checkout: checkout,
-          checkOut: checkout,
-          guests: guests,
-          totalPrice: total,
-          total: total,
-          payableAmount: payable,
-          payable: payable,
-          paymentType: payType,
-          status: 'مقبول', // أو active حسب لوحة الأدمن
-          createdAt: new Date().toLocaleDateString('ar-EG')
-        };
+      const remaining = Math.max(0, total - payable);
+      if (remaining > 0) {
+        document.getElementById('deposit-row').style.display = 'flex';
+        document.getElementById('sum-remaining').innerText = remaining.toLocaleString() + ' ج.م';
+      }
 
-        // حفظ الحجز في localStorage
-        let bookings = [];
-        try {
-          bookings = JSON.parse(localStorage.getItem('mosaify_bookings')) || [];
-        } catch(err) {
-          bookings = [];
+      // ========== طريقة الدفع ==========
+      document.querySelectorAll('input[name="pay_type"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          const isDeposit = document.getElementById('pay-deposit').checked;
+          const depositAmt = pricePerNight; // ليلة واحدة عربون
+          const payNow = isDeposit ? depositAmt : total;
+          const rem    = isDeposit ? Math.max(0, total - depositAmt) : 0;
+
+          document.getElementById('sum-payable').innerText = payNow.toLocaleString() + ' ج.م';
+          if (rem > 0) {
+            document.getElementById('deposit-row').style.display = 'flex';
+            document.getElementById('sum-remaining').innerText = rem.toLocaleString() + ' ج.م';
+          } else {
+            document.getElementById('deposit-row').style.display = 'none';
+          }
+        });
+      });
+
+      // ========== رفع الإيصال ==========
+      document.getElementById('receipt-file-input').addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        if (file.size > 5 * 1024 * 1024) {
+          alert('⚠️ حجم الملف كبير جداً! يرجى اختيار صورة أصغر من 5MB.');
+          this.value = '';
+          return;
         }
 
-        bookings.push(bookingData);
-        localStorage.setItem('mosaify_bookings', JSON.stringify(bookings));
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          receiptBase64 = e.target.result;
+          const preview = document.getElementById('receipt-preview');
+          preview.src = receiptBase64;
+          preview.style.display = 'block';
+          document.querySelector('.receipt-upload-text').innerHTML = '<strong style="color:#2ecc71;">✅ تم رفع الإيصال بنجاح</strong>';
+        };
+        reader.readAsDataURL(file);
+      });
 
-        alert(`تم الحجز بنجاح!\nكود الحجز الخاص بك هو: ${randomCode}`);
-        window.location.href = 'admin.html'; // أو الصفحة الرئيسية حسب المطلوب
+      // ========== إرسال الفورم ==========
+      document.getElementById('checkout-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const btn   = document.getElementById('submit-btn');
+        const name  = document.getElementById('client-name').value.trim();
+        const phone = document.getElementById('client-phone').value.trim();
+
+        if (!name || !phone) {
+          alert('⚠️ يرجى إدخال الاسم ورقم الهاتف!');
+          return;
+        }
+
+        btn.innerText  = 'جاري التأكيد... ⏳';
+        btn.disabled   = true;
+
+        const isDeposit = document.getElementById('pay-deposit').checked;
+        const payNow    = isDeposit ? pricePerNight : total;
+        const remaining = isDeposit ? Math.max(0, total - pricePerNight) : 0;
+
+        const bookingData = {
+          id:            randomCode,
+          code:          randomCode,
+          chaletId:      chaletId || currentChalet.id || '',
+          chaletTitle:   currentChalet.title,
+          customerName:  name,
+          name:          name,
+          userName:      name,
+          customerPhone: phone,
+          phone:         phone,
+          userPhone:     phone,
+          checkin:       checkin,
+          checkIn:       checkin,
+          checkout:      checkout,
+          checkOut:      checkout,
+          guests:        guests,
+          totalPrice:    total,
+          total:         total,
+          paid:          payNow,
+          paidAmount:    payNow,
+          payable:       payNow,
+          remaining:     remaining,
+          paymentType:   isDeposit ? 'deposit' : 'full',
+          receiptImg:    receiptBase64,
+          receiptImage:  receiptBase64,
+          status:        'pending',
+          createdAt:     new Date().toLocaleDateString('ar-EG')
+        };
+
+        // حفظ في localStorage
+        addBooking(bookingData);
+
+        // حفظ مؤقت للـ thankyou page
+        localStorage.setItem('last_booking_details', JSON.stringify(bookingData));
+        if (receiptBase64) localStorage.setItem('temp_receipt_img', receiptBase64);
+
+        // التوجيه لصفحة الشكر مع المعلومات
+        const params = new URLSearchParams({
+          bookingId: randomCode,
+          name:      name,
+          phone:     phone,
+          chalet:    currentChalet.title,
+          checkin:   checkin,
+          checkout:  checkout,
+          guests:    guests,
+          total:     total,
+          payable:   payNow,
+          paytype:   isDeposit ? 'deposit' : 'full'
+        });
+
+        window.location.href = 'thankyou.html?' + params.toString();
       });
     });
   </script>

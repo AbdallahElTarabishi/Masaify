@@ -195,6 +195,7 @@
     </div>
   </main>
 
+  <script src="js/data.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -213,7 +214,7 @@
       const bookingId = urlParams.get('bookingId') || urlParams.get('id') || lastBooking.id || ('ORD-' + Math.floor(100000 + Math.random() * 900000));
       
       // جلب بقية الحجوزات لمراجعة حالة الحجز لو تم تعديلها من قبل الأدمن
-      const allBookings = JSON.parse(localStorage.getItem('mosaify_bookings')) || [];
+      const allBookings = getBookings();
       const existingBooking = allBookings.find(b => String(b.id) === String(bookingId));
 
       const userName = urlParams.get('name') || lastBooking.customerName || "عميلنا العزيز";
@@ -293,7 +294,7 @@
       } else {
         allBookings.unshift(updatedBooking);
       }
-      localStorage.setItem('mosaify_bookings', JSON.stringify(allBookings));
+      saveBookings(allBookings);
     });
 
     // دالة عرض وتنسيق شارة الحالة

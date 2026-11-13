@@ -6,8 +6,8 @@
   <title>مصيفي | لوحة تحكم الأدمن</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- سكريبت الحماية والتأكد من تسجيل الدخول -->
+
+  <!-- حماية الصفحة والتحقق من الجلسة -->
   <script>
     if (sessionStorage.getItem('mosaify_admin_authenticated') !== 'true') {
       alert('🔒 غير مسموح بالدخول! برجاء تسجيل الدخول أولاً.');
@@ -17,336 +17,706 @@
 
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #0b3d3e 0%, #185a5d 50%, #082c2d 100%);
-      --card-bg: #ffffff;
-      --primary: #0b3d3e;
-      --accent: #2ecc71;
-      --coral: #e74c3c;
-      --gold: #f39c12;
-      --text-dark: #0f172a;
-      --text-muted: #475569;
-      --radius: 14px;
-      --shadow: 0 10px 25px rgba(0,0,0,0.2);
+      --bg-dark: #071516;
+      --bg-surface: #0e2425;
+      --primary: #00b4d8;
+      --primary-hover: #0096c7;
+      --accent-gold: #ffb703;
+      --accent-coral: #ff5e36;
+      --accent-green: #2ecc71;
+      --accent-blue: #0284c7;
+      --text-white: #ffffff;
+      --text-dim: #94a3b8;
+      --card-bg: rgba(14, 36, 37, 0.92);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.45);
     }
 
     * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
 
     body {
       margin: 0;
-      background: var(--bg-gradient);
+      background: radial-gradient(circle at 50% 15%, #153c3e 0%, var(--bg-dark) 75%);
       min-height: 100vh;
-      color: var(--text-dark);
+      color: #e2e8f0;
+      overflow-x: hidden;
     }
 
+    /* Navbar */
     .admin-nav {
-      background: rgba(11, 61, 62, 0.9);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(7, 21, 22, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
       padding: 12px 0;
       position: sticky;
       top: 0;
       z-index: 100;
     }
-
     .nav-container {
-      max-width: 1350px;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 0 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+    .brand-logo {
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .brand-logo span { color: var(--accent-gold); }
+    .brand-tag {
+      background: rgba(0, 180, 216, 0.15);
+      border: 1px solid rgba(0, 180, 216, 0.4);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
 
-    .brand-logo { color: #fff; font-size: 20px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
-    .brand-tag { background: rgba(255,255,255,0.25); color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 15px; }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-    .admin-page { max-width: 1350px; margin: 0 auto; padding: 16px 12px 60px; }
-    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; color: #fff; }
-    .admin-header h2 { margin: 0; font-weight: 900; font-size: 20px; }
-
+    /* Page Layout */
+    .admin-page {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .admin-header h2 {
+      margin: 0;
+      font-weight: 900;
+      font-size: 26px;
+      color: #fff;
+    }
+    .admin-header h2 span { color: var(--accent-gold); }
     .nav-cta {
-      background: #20b2aa; color: #0b3d3e; text-decoration: none; padding: 8px 16px;
-      border-radius: 8px; font-weight: 800; font-size: 13px; transition: all 0.2s;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid var(--card-border);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 14px;
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .nav-cta:hover { background: #fff; }
+    .nav-cta:hover {
+      background: var(--primary);
+      color: #071516;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
 
-    .admin-nav-tabs-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 16px; }
+    /* Global Stats Bar - 4 Cards Grid المتناسق */
+    .global-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 20px 22px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 5px;
+    }
+    .stat-card.c-teal::before  { background: var(--primary); }
+    .stat-card.c-coral::before { background: var(--accent-coral); }
+    .stat-card.c-green::before { background: var(--accent-green); }
+    .stat-card.c-gold::before  { background: var(--accent-gold); }
+
+    .stat-card h4 {
+      margin: 0;
+      font-size: 13.5px;
+      color: var(--text-dim);
+      font-weight: 700;
+    }
+    .stat-card .num {
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .stat-card .icon-deco {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 32px;
+      opacity: 0.25;
+    }
+
+    /* Tabs */
+    .admin-nav-tabs-wrapper {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 24px;
+    }
     .admin-nav-tabs {
-      display: flex; gap: 6px; background: rgba(0,0,0,0.35); padding: 5px;
-      border-radius: 12px; backdrop-filter: blur(8px); width: 100%; max-width: 650px;
+      display: flex;
+      gap: 8px;
+      background: rgba(7, 21, 22, 0.7);
+      border: 1px solid var(--card-border);
+      padding: 6px;
+      border-radius: 14px;
+      backdrop-filter: blur(12px);
+      width: 100%;
+      max-width: 650px;
     }
-
     .tab-btn {
-      flex: 1; background: transparent; color: rgba(255,255,255,0.9); border: none; padding: 10px;
-      border-radius: 9px; font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.3s; text-align: center;
+      flex: 1;
+      background: transparent;
+      color: var(--text-dim);
+      border: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 14.5px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .tab-btn.active { background: #ffffff; color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .tab-btn:hover { color: #fff; }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #fb8500 100%);
+      color: #071516;
+      box-shadow: 0 4px 15px rgba(255, 183, 3, 0.35);
+      font-weight: 900;
+    }
+    .tab-btn .badge {
+      background: #e74c3c;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* Admin Cards */
+    .admin-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 24px;
+    }
+    .card-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .card-header-bar h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
-    .stat-card { background: #fff; padding: 14px 18px; border-radius: var(--radius); box-shadow: var(--shadow); border-right: 6px solid var(--primary); }
-    .stat-card h4 { margin: 0 0 4px; font-size: 13px; color: var(--text-muted); font-weight: 700; }
-    .stat-card .num { font-size: 22px; color: var(--primary); font-weight: 900; }
-
-    .admin-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 16px; align-items: start; }
-    .admin-card { background: #ffffff; border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); margin-bottom: 16px; border: 1px solid #e2e8f0; }
-
-    .card-header-toggle {
-      display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-      user-select: none; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;
+    .btn-add-trigger {
+      background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(0, 180, 216, 0.3);
+      transition: all 0.25s;
     }
-    .card-header-toggle h3 { margin: 0; color: var(--primary); font-size: 16px; font-weight: 900; }
-    .toggle-arrow {
-      font-size: 12px; transition: transform 0.3s ease; background: #f1f5f9;
-      width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--primary);
+    .btn-add-trigger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 180, 216, 0.5);
     }
-    .toggle-arrow.open { transform: rotate(180deg); }
 
-    .collapsible-content { max-height: 2500px; overflow: hidden; transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.3s ease; opacity: 1; }
-    .collapsible-content.collapsed { max-height: 0; opacity: 0; margin: 0; padding: 0; }
-
-    .form-row { display: flex; gap: 10px; }
-    .admin-form .field { margin-bottom: 12px; width: 100%; position: relative; }
-    .admin-form label { font-size: 12.5px; font-weight: 800; color: #0b3d3e; display: block; margin-bottom: 4px; }
-    
-    .admin-form input[type="text"], 
-    .admin-form input[type="password"], 
-    .admin-form input[type="number"], 
-    .admin-form input[type="file"], 
-    .admin-form select, 
+    /* Forms Inside Modals & Accordions */
+    .admin-form .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .admin-form .form-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .admin-form .field {
+      margin-bottom: 14px;
+      width: 100%;
+    }
+    .admin-form label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #cbd5e1;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .admin-form input[type="text"],
+    .admin-form input[type="password"],
+    .admin-form input[type="number"],
+    .admin-form input[type="file"],
+    .admin-form select,
     .admin-form textarea {
-      width: 100%; border: 2px solid #cbd5e1; background: #ffffff; color: #000000 !important;
-      border-radius: 8px; padding: 8px 12px; font-size: 13.5px; font-weight: 700; outline: none; transition: all 0.2s;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.35);
+      color: #ffffff !important;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      outline: none;
+      transition: all 0.2s;
     }
-    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(11, 61, 62, 0.15); }
+    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus {
+      border-color: var(--primary);
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+    }
+    .admin-form select option {
+      background: #0e2425;
+      color: #fff;
+    }
 
-    .switch-wrapper { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 6px 12px; border-radius: 8px; border: 2px solid #cbd5e1; }
-    .switch { position: relative; display: inline-block; width: 42px; height: 22px; }
+    /* Switch */
+    .switch-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
     .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 20px; }
-    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
-    input:checked + .slider { background-color: var(--accent); }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #334155; transition: .3s; border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background-color: white; transition: .3s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--accent-green); }
     input:checked + .slider:before { transform: translateX(20px); }
 
-    .search-input { width: 100%; padding: 10px 14px; margin-bottom: 14px; border: 2px solid #cbd5e1; border-radius: 8px; background: #ffffff; color: #000; font-weight: 700; outline: none; font-size: 13.5px; }
+    /* Search & Filters */
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      font-weight: 700;
+      outline: none;
+      font-size: 14px;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+    }
 
-    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .admin-table { width: 100%; border-collapse: collapse; min-width: 1050px; }
-    .admin-table th { padding: 10px; text-align: right; color: var(--primary); font-size: 12px; font-weight: 800; background: #f1f5f9; border-bottom: 2px solid #cbd5e1; white-space: nowrap; }
-    .admin-table td { padding: 10px; background: #fff; border-bottom: 1px solid #e2e8f0; font-size: 13px; font-weight: 700; color: #1e293b; white-space: nowrap; vertical-align: middle; }
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-chip {
+      padding: 7px 18px;
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-dim);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-chip:hover { border-color: var(--primary); color: #fff; }
+    .filter-chip.active {
+      background: var(--primary);
+      color: #071516;
+      border-color: var(--primary);
+      box-shadow: 0 2px 10px rgba(0, 180, 216, 0.3);
+    }
 
-    .status-select { padding: 6px 10px; border-radius: 8px; font-weight: 800; font-size: 12.5px; cursor: pointer; outline: none; border: 1.5px solid #cbd5e1; }
-    .status-select.pending { background: #fffbebf5; color: #d97706; border-color: #fcd34d; }
-    .status-select.approved { background: #ecfdf5; color: #059669; border-color: #6ee7b7; }
-    .status-select.rejected { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+    /* Modern Dark Tables */
+    .table-responsive { width: 100%; overflow-x: auto; border-radius: var(--radius-md); }
+    .admin-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 900px;
+    }
+    .admin-table th {
+      padding: 14px 16px;
+      text-align: right;
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid var(--card-border);
+      white-space: nowrap;
+    }
+    .admin-table td {
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #e2e8f0;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+    .admin-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
 
-    .confirm-btn { width: 100%; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s; margin-top: 6px; }
-    .confirm-btn:hover { background: #145355; }
+    /* Status Selects */
+    .status-select {
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+      border: 1px solid transparent;
+    }
+    .status-select.pending  { background: rgba(255, 183, 3, 0.15); color: #ffb703; border-color: rgba(255, 183, 3, 0.4); }
+    .status-select.approved { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border-color: rgba(46, 204, 113, 0.4); }
+    .status-select.rejected { background: rgba(231, 76, 60, 0.15); color: #e74c3c; border-color: rgba(231, 76, 60, 0.4); }
 
-    .action-btns-group { display: flex; gap: 6px; align-items: center; }
-    .edit-btn { background: #0284c7; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer; border: none; }
-    .delete-btn { background: #e11d48; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer; border: none; }
-    .logout-btn { background: #ef4444; color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; }
+    /* Action Buttons */
+    .action-btns-group { display: flex; gap: 8px; align-items: center; }
+    .edit-btn {
+      background: rgba(2, 132, 199, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(2, 132, 199, 0.4);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .edit-btn:hover { background: #0284c7; color: #fff; }
 
-    .thumb-img { width: 45px; height: 35px; border-radius: 6px; object-fit: cover; border: 1px solid #ccc; }
-    .receipt-thumb { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; border: 2px solid #0b3d3e; cursor: pointer; }
-    
-    /* تنسيقات حقول الهاتف وفترة الإقامة */
+    .delete-btn {
+      background: rgba(225, 29, 72, 0.2);
+      color: #fb7185;
+      border: 1px solid rgba(225, 29, 72, 0.4);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .delete-btn:hover { background: #e11d48; color: #fff; }
+
+    .logout-btn {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover { background: #ef4444; color: #fff; }
+
+    .confirm-btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #fb8500 100%);
+      color: #071516;
+      border: none;
+      border-radius: 10px;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .confirm-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 183, 3, 0.4);
+    }
+
+    .thumb-img {
+      width: 55px;
+      height: 42px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--card-border);
+    }
+    .receipt-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      cursor: pointer;
+    }
+
+    /* Phone & Dates */
     .phone-actions { display: flex; align-items: center; gap: 6px; }
-    .phone-link { color: #0284c7; text-decoration: none; font-weight: 800; background: #e0f2fe; padding: 4px 8px; border-radius: 6px; font-size: 12.5px; }
-    .phone-link:hover { background: #bae6fd; }
-    .whatsapp-btn { background: #25d366; color: white; text-decoration: none; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 800; }
-    
-    .stay-period { display: flex; flex-direction: column; gap: 2px; }
-    .stay-dates { font-size: 12.5px; font-weight: 800; color: #0f172a; }
-    .stay-nights { font-size: 11px; font-weight: 700; color: #0284c7; background: #f0f9ff; padding: 2px 6px; border-radius: 4px; display: inline-block; width: fit-content; }
+    .phone-link {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 800;
+      background: rgba(2, 132, 199, 0.15);
+      border: 1px solid rgba(2, 132, 199, 0.3);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12.5px;
+    }
+    .whatsapp-btn {
+      background: rgba(37, 211, 102, 0.2);
+      border: 1px solid rgba(37, 211, 102, 0.4);
+      color: #25d366;
+      text-decoration: none;
+      padding: 5px 9px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .stay-period { display: flex; flex-direction: column; gap: 3px; }
+    .stay-dates  { font-size: 13px; font-weight: 800; color: #fff; }
+    .stay-nights {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(2, 132, 199, 0.15);
+      padding: 2px 8px;
+      border-radius: 4px;
+      width: fit-content;
+    }
 
-    /* كلمة السر والتنسيقات */
-    .password-wrapper { position: relative; display: flex; align-items: center; }
-    .toggle-pwd-btn { position: absolute; left: 8px; background: none; border: none; cursor: pointer; font-size: 14px; color: #64748b; }
-    .role-badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; }
-    .role-super { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-    .role-admin { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    /* Role Badges */
+    .role-badge { padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 800; }
+    .role-super { background: rgba(255, 183, 3, 0.15); color: #ffb703; border: 1px solid rgba(255, 183, 3, 0.4); }
+    .role-admin { background: rgba(0, 180, 216, 0.15); color: #38bdf8; border: 1px solid rgba(0, 180, 216, 0.4); }
 
-    /* Modal Styling */
+    /* Modals */
     .modal-overlay {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(11, 61, 62, 0.85);
-      backdrop-filter: blur(6px); display: flex; justify-content: center; align-items: center;
-      z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.3s ease; padding: 12px;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(7, 21, 22, 0.88);
+      backdrop-filter: blur(10px);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.3s ease; padding: 20px;
     }
     .modal-overlay.active { opacity: 1; visibility: visible; }
-    .modal-box { background: #fff; width: 100%; max-width: 450px; border-radius: 16px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); text-align: center; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 14px; }
-    .modal-header h3 { margin: 0; color: var(--primary); font-size: 17px; font-weight: 900; }
-    .close-modal-btn { background: #f1f5f9; border: none; font-size: 16px; font-weight: 900; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; color: #475569; }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      width: 100%;
+      max-width: 720px;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 14px; margin-bottom: 20px;
+    }
+    .modal-header h3 { margin: 0; color: #fff; font-size: 19px; font-weight: 900; }
+    .close-modal-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      font-size: 16px;
+      font-weight: 900;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: #fff;
+    }
+    .close-modal-btn:hover { background: rgba(255, 255, 255, 0.25); }
 
-    @media (max-width: 992px) { .admin-grid { grid-template-columns: 1fr; } }
+    /* Two-column balance in settings tab */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1100px) {
+      .global-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .settings-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .global-stats-grid { grid-template-columns: 1fr; }
+      .admin-form .form-grid-3, .admin-form .form-grid-2 { grid-template-columns: 1fr; }
+      .admin-page { padding: 16px 12px 60px; }
+      .admin-header h2 { font-size: 20px; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- شريط الملاحة العلوي -->
   <nav class="admin-nav">
     <div class="nav-container">
-      <div class="brand-logo">🏖️ مصيفي <span class="brand-tag">لوحة التحكم</span></div>
-      <button class="logout-btn" onclick="logoutAdmin()">🚪 خروج</button>
+      <a href="index.html" class="brand-logo">🏖️ مصيفي<span>.</span> <span class="brand-tag">لوحة التحكم</span></a>
+      <div class="nav-actions">
+        <a href="index.html" target="_blank" class="nav-cta">معاينة الموقع ↗</a>
+        <button class="logout-btn" onclick="logoutAdmin()">🚪 خروج</button>
+      </div>
     </div>
   </nav>
 
   <div class="admin-page">
     <div class="admin-header">
-      <h2>مرحباً، الأدمن 🛠️</h2>
-      <a href="index.html" target="_blank" class="nav-cta">معاينة الموقع ↗</a>
+      <h2>مرحباً بك، <span id="logged-username">الأدمن</span> 🛠️</h2>
+      <div style="color:var(--text-dim); font-size:14px; font-weight:700;">إدارة الشاليهات والحجوزات بكل سهولة وسرعة</div>
     </div>
 
-    <!-- أزرار التبديل -->
+    <!-- شريط الإحصائيات العام الموحد (4 كروت تملأ العرض بتناسق كامل) -->
+    <div class="global-stats-grid">
+      <div class="stat-card c-teal">
+        <h4>إجمالي الشاليهات المتاحة 🏖️</h4>
+        <div class="num" id="total-chalets">0</div>
+        <div class="icon-deco">🏖️</div>
+      </div>
+      <div class="stat-card c-coral">
+        <h4>طلبات حجز جديدة ⏳</h4>
+        <div class="num" id="pending-bookings" style="color:var(--accent-coral);">0</div>
+        <div class="icon-deco">⏳</div>
+      </div>
+      <div class="stat-card c-green">
+        <h4>المبالغ المحصلة فعلياً 💰</h4>
+        <div class="num" id="total-paid-revenue" style="color:var(--accent-green);">0 ج.م</div>
+        <div class="icon-deco">💵</div>
+      </div>
+      <div class="stat-card c-gold">
+        <h4>إجمالي قيمة المبيعات 📊</h4>
+        <div class="num" id="total-revenue" style="color:var(--accent-gold);">0 ج.م</div>
+        <div class="icon-deco">📈</div>
+      </div>
+    </div>
+
+    <!-- أزرار التبديل بين الأقسام (Tabs) -->
     <div class="admin-nav-tabs-wrapper">
       <div class="admin-nav-tabs">
-        <button id="btn-chalets-tab" class="tab-btn" onclick="switchTab('chalets-tab', this)">🏖️ إدارة الشاليهات</button>
-        <button id="btn-bookings-tab" class="tab-btn" onclick="switchTab('bookings-tab', this)">🧾 الطلبات والحجوزات</button>
+        <button id="btn-chalets-tab" class="tab-btn active" onclick="switchTab('chalets-tab', this)">🏖️ إدارة الشاليهات</button>
+        <button id="btn-bookings-tab" class="tab-btn" onclick="switchTab('bookings-tab', this)">
+          🧾 الطلبات والحجوزات <span class="badge" id="pending-badge" style="display:none">0</span>
+        </button>
         <button id="btn-settings-tab" class="tab-btn" onclick="switchTab('settings-tab', this)">⚙️ حسابات الأدمن</button>
       </div>
     </div>
 
-    <!-- TAB 1: إدارة الشاليهات -->
-    <div id="chalets-tab" class="tab-content">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <h4>إجمالي الشاليهات المتاحة</h4>
-          <div class="num" id="total-chalets">0</div>
-        </div>
-      </div>
-
-      <div class="admin-grid">
-        <div class="admin-card">
-          <div class="card-header-toggle" onclick="toggleAccordion('add-chalet-collapsible', 'arrow-chalet')">
-            <h3>إضافة شاليه/فيلا جديدة ➕</h3>
-            <span class="toggle-arrow open" id="arrow-chalet">▼</span>
+    <!-- ==================== TAB 1: إدارة الشاليهات (بعرض كامل 100%) ==================== -->
+    <div id="chalets-tab" class="tab-content active">
+      <div class="admin-card">
+        <div class="card-header-bar">
+          <div>
+            <h3>قائمة الشاليهات والفيلات المتاحة 🏖️</h3>
+            <p style="margin:4px 0 0; color:var(--text-dim); font-size:13.5px;">تعديل، حذف، وإضافة وحدات مصيفية جديدة للموقع</p>
           </div>
-
-          <div id="add-chalet-collapsible" class="collapsible-content">
-            <form class="admin-form" id="add-chalet-form" onsubmit="handleAddChalet(event)">
-              <div class="field">
-                <label>عنوان العقار</label>
-                <input type="text" id="add-chalet-title" placeholder="مثال: شاليه لؤلؤة مارينا" required>
-              </div>
-
-              <div class="field">
-                <label>المنطقة</label>
-                <select id="add-chalet-loc">
-                  <option value="العين السخنة">العين السخنة</option>
-                  <option value="الساحل الشمالي">الساحل الشمالي</option>
-                  <option value="الغردقة">الغردقة</option>
-                  <option value="شرم الشيخ">شرم الشيخ</option>
-                  <option value="مطروح">مطروح</option>
-                </select>
-              </div>
-
-              <div class="form-row">
-                <div class="field">
-                  <label>السعر/ليلة (ج.م)</label>
-                  <input type="number" id="add-chalet-price" placeholder="2500" min="0" required>
-                </div>
-                <div class="field">
-                  <label>التقييم (من 5)</label>
-                  <input type="number" id="add-chalet-rating" placeholder="5.0" min="1" max="5" step="0.1" value="5.0" required>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="field">
-                  <label>عدد الغرف</label>
-                  <input type="number" id="add-chalet-rooms" placeholder="2" required min="1" value="2">
-                </div>
-                <div class="field">
-                  <label>عدد الحمامات</label>
-                  <input type="number" id="add-chalet-baths" placeholder="1" required min="1" value="1">
-                </div>
-              </div>
-
-              <div class="field">
-                <label>حمام سباحة (بسين)</label>
-                <div class="switch-wrapper">
-                  <span id="add-pool-status-text" style="font-weight:800; font-size:12px; color:var(--text-muted);">لا ❌</span>
-                  <label class="switch">
-                    <input type="checkbox" id="add-chalet-pool" onchange="togglePoolText(this, 'add-pool-status-text')">
-                    <span class="slider"></span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- 📸 إضافة الصور (ملفات أو روابط) -->
-              <div class="field">
-                <label>صور العقار (يمكن اختيار أكثر من صورة) 🖼️</label>
-                <input type="file" id="add-chalet-images-files" accept="image/*" multiple style="margin-bottom: 6px;">
-                <textarea id="add-chalet-images-urls" rows="2" placeholder="أو ضع روابط الصور هنا (رابط في كل سطر)..."></textarea>
-              </div>
-
-              <!-- 🎥 إضافة فيديو (ملف أو رابط) -->
-              <div class="field">
-                <label>فيديو الشاليه/الفيلا 🎥</label>
-                <input type="file" id="add-chalet-video-file" accept="video/*" style="margin-bottom: 6px;">
-                <input type="text" id="add-chalet-video-url" placeholder="أو ضع رابط الفيديو هنا (YouTube / MP4 URL)...">
-              </div>
-
-              <div class="field">
-                <label>الوصف والتفاصيل</label>
-                <textarea id="add-chalet-desc" rows="2" placeholder="وصف مميزات العقار..."></textarea>
-              </div>
-
-              <button type="submit" class="confirm-btn">حفظ وإضافة العقار ✨</button>
-            </form>
-          </div>
+          <button type="button" class="btn-add-trigger" onclick="openAddChaletModal()">
+            ➕ إضافة شاليه جديد
+          </button>
         </div>
 
-        <div class="admin-card">
-          <h3 style="margin: 0 0 12px; color: var(--primary); font-size: 16px; font-weight: 900; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">قائمة الشاليهات الحالية</h3>
-          <div class="table-responsive">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>الصورة</th>
-                  <th>العقار</th>
-                  <th>التقييم</th>
-                  <th>السعر/ليلة</th>
-                  <th>الوسائط</th>
-                  <th>الإجراءات</th>
-                </tr>
-              </thead>
-              <tbody id="admin-chalet-table"></tbody>
-            </table>
-          </div>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>الصورة</th>
+                <th>العقار والمنطقة</th>
+                <th>السعر / ليلة</th>
+                <th>التقييم</th>
+                <th>المواصفات</th>
+                <th>الوسائط</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="admin-chalet-table"></tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <!-- TAB 2: الطلبات والحجوزات -->
+    <!-- ==================== TAB 2: الحجوزات والطلبات (بعرض كامل 100%) ==================== -->
     <div id="bookings-tab" class="tab-content">
-      <div class="stats-grid">
-        <div class="stat-card" style="border-right-color: var(--accent);">
-          <h4>إجمالي الطلبات</h4>
-          <div class="num" id="total-bookings">0</div>
-        </div>
-        <div class="stat-card" style="border-right-color: #2ecc71;">
-          <h4>المحصل الآن 💰</h4>
-          <div class="num" id="total-paid-revenue" style="color: #2ecc71;">0 ج.م</div>
-        </div>
-        <div class="stat-card" style="border-right-color: var(--gold);">
-          <h4>إجمالي قيمة المبيعات 📊</h4>
-          <div class="num" id="total-revenue">0 ج.م</div>
-        </div>
-      </div>
-
       <div class="admin-card">
-        <h3 style="margin: 0 0 12px; color: var(--primary); font-size: 16px; font-weight: 900; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">طلبات الحجز الواردة</h3>
-        <input type="text" id="search-booking" class="search-input" placeholder="🔍 بحث برقم الحجز أو اسم العميل أو الهاتف..." onkeyup="filterBookings()">
-        
+        <div class="card-header-bar">
+          <div>
+            <h3>طلبات الحجز الواردة من العملاء 🧾</h3>
+            <p style="margin:4px 0 0; color:var(--text-dim); font-size:13.5px;">تأكيد أو إلغاء الحجوزات ومتابعة إيصالات الدفع</p>
+          </div>
+          <div style="color:var(--text-dim); font-size:13.5px;">
+            إجمالي الطلبات: <strong id="total-bookings" style="color:#fff;">0</strong>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px;">
+          <input type="text" id="search-booking" class="search-input" style="flex:1; min-width:240px;" placeholder="🔍 بحث سريع برقم الحجز أو اسم العميل أو الهاتف..." oninput="filterBookings()">
+        </div>
+
+        <div class="filter-bar">
+          <button class="filter-chip active" onclick="filterByStatus('all', this)">الكل</button>
+          <button class="filter-chip" onclick="filterByStatus('pending', this)">⏳ قيد المراجعة</button>
+          <button class="filter-chip" onclick="filterByStatus('approved', this)">✅ مقبول / مؤكد</button>
+          <button class="filter-chip" onclick="filterByStatus('rejected', this)">❌ مرفوض / ملغي</button>
+        </div>
+
         <div class="table-responsive">
           <table class="admin-table">
             <thead>
@@ -371,44 +741,43 @@
       </div>
     </div>
 
-    <!-- TAB 3: إعدادات الأدمن -->
+    <!-- ==================== TAB 3: حسابات الأدمن ==================== -->
     <div id="settings-tab" class="tab-content">
-      <div class="stats-grid">
-        <div class="stat-card" style="border-right-color: var(--coral);">
-          <h4>عدد المسئولين</h4>
-          <div class="num" id="total-admins">1</div>
-        </div>
-      </div>
-
-      <div class="admin-grid">
+      <div class="settings-grid">
+        <!-- فورم إضافة أدمن -->
         <div class="admin-card">
-          <h3 style="color: var(--primary); font-size: 16px; font-weight: 900; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">إضافة أدمن جديد 👤</h3>
+          <div class="card-header-bar">
+            <h3>إضافة مسئول جديد 👤</h3>
+          </div>
           <form class="admin-form" id="admin-account-form" onsubmit="handleAddAdmin(event)">
             <div class="field">
-              <label>اسم المستخدم (Username)</label>
-              <input type="text" id="add-admin-username" placeholder="اسم المستخدم" required>
+              <label>اسم المستخدم (Username) *</label>
+              <input type="text" id="add-admin-username" placeholder="مثال: ahmed_admin" required>
             </div>
             <div class="field">
-              <label>كلمة السر (Password)</label>
-              <div class="password-wrapper">
+              <label>كلمة السر (Password) *</label>
+              <div class="password-wrapper" style="position:relative;">
                 <input type="password" id="add-admin-password" placeholder="••••••••" required minlength="4">
-                <button type="button" class="toggle-pwd-btn" onclick="togglePasswordInput('add-admin-password', this)">👁️</button>
+                <button type="button" class="toggle-pwd-btn" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:15px; color:#94a3b8;" onclick="togglePasswordInput('add-admin-password', this)">👁️</button>
               </div>
             </div>
-            <!-- 👑 خيار اختيار الصلاحية: سوبر أدمن أو أدمن عادي -->
             <div class="field">
-              <label>صلاحية الحساب (Role)</label>
+              <label>صلاحية الحساب *</label>
               <select id="add-admin-role">
                 <option value="admin">أدمن عادي (Admin)</option>
-                <option value="superadmin">سوبر أدمن (Super Admin) 👑</option>
+                <option value="superadmin">سوبر أدمن 👑 (Super Admin)</option>
               </select>
             </div>
-            <button type="submit" class="confirm-btn" style="background:var(--gold);">إضافة الأدمن ✨</button>
+            <button type="submit" class="confirm-btn" style="width:100%; margin-top:8px;">إضافة المسئول ✨</button>
           </form>
         </div>
 
+        <!-- جدول المسئولين -->
         <div class="admin-card">
-          <h3 style="color: var(--primary); font-size: 16px; font-weight: 900; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">قائمة المسئولين</h3>
+          <div class="card-header-bar">
+            <h3>قائمة المسئولين الحاليين</h3>
+            <span style="color:var(--text-dim); font-size:13px;">العدد: <strong id="total-admins" style="color:#fff;">1</strong></span>
+          </div>
           <div class="table-responsive">
             <table class="admin-table">
               <thead>
@@ -428,366 +797,521 @@
 
   </div>
 
+  <!-- ==================== MODAL: إضافة / تعديل شاليه (شبكة منسقة ومريحة) ==================== -->
+  <div class="modal-overlay" id="chalet-form-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-chalet-title">➕ إضافة شاليه/فيلا جديدة</h3>
+        <button type="button" class="close-modal-btn" onclick="closeChaletModal()">✕</button>
+      </div>
+
+      <form class="admin-form" id="chalet-unified-form" onsubmit="handleUnifiedChaletSubmit(event)">
+        <input type="hidden" id="chalet-action-id">
+
+        <div class="field">
+          <label>عنوان العقار *</label>
+          <input type="text" id="modal-field-title" placeholder="مثال: شاليه لؤلؤة مارينا بالساحل" required>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="field">
+            <label>المنطقة والوجهة *</label>
+            <select id="modal-field-loc">
+              <option value="الساحل الشمالي">الساحل الشمالي</option>
+              <option value="العين السخنة">العين السخنة</option>
+              <option value="رأس الحكمة">رأس الحكمة</option>
+              <option value="الغردقة">الغردقة</option>
+              <option value="شرم الشيخ">شرم الشيخ</option>
+              <option value="مطروح">مطروح</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>نوع العقار *</label>
+            <select id="modal-field-type">
+              <option value="شاليه">شاليه</option>
+              <option value="فيلا">فيلا</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>المنتجع / القرية</label>
+            <input type="text" id="modal-field-resort" placeholder="مثال: مراسي، لافيستا...">
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="field">
+            <label>السعر/ليلة (ج.م) *</label>
+            <input type="number" id="modal-field-price" placeholder="مثال: 3500" min="0" required>
+          </div>
+          <div class="field">
+            <label>التقييم (من 5)</label>
+            <input type="number" id="modal-field-rating" placeholder="5.0" min="1" max="5" step="0.1" value="5.0">
+          </div>
+          <div class="field">
+            <label>أقصى عدد أفراد 👥</label>
+            <input type="number" id="modal-field-guests" placeholder="6" min="1" value="6">
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="field">
+            <label>غرف النوم 🛏️</label>
+            <input type="number" id="modal-field-rooms" placeholder="2" min="1" value="2">
+          </div>
+          <div class="field">
+            <label>الحمامات 🚿</label>
+            <input type="number" id="modal-field-baths" placeholder="1" min="1" value="1">
+          </div>
+          <div class="field">
+            <label>حمام سباحة (بسين) 🏊</label>
+            <div class="switch-wrapper">
+              <span id="modal-pool-text" style="font-weight:800; font-size:12.5px; color:#94a3b8;">لا ❌</span>
+              <label class="switch">
+                <input type="checkbox" id="modal-field-pool" onchange="togglePoolText(this, 'modal-pool-text')">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="field">
+            <label>صور العقار (ملفات أو روابط) 🖼️</label>
+            <input type="file" id="modal-field-images-files" accept="image/*" multiple style="margin-bottom:6px;">
+            <textarea id="modal-field-images-urls" rows="2" placeholder="أو روابط الصور هنا (رابط بكل سطر)..."></textarea>
+          </div>
+          <div class="field">
+            <label>فيديو العقار 🎥</label>
+            <input type="file" id="modal-field-video-file" accept="video/*" style="margin-bottom:6px;">
+            <input type="text" id="modal-field-video-url" placeholder="أو رابط الفيديو (YouTube / MP4)...">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>الوصف والتفاصيل</label>
+          <textarea id="modal-field-desc" rows="2" placeholder="اكتب وصفاً جذاباً للشاليه وموقعه..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>المزايا والخدمات (ميزة في كل سطر)</label>
+          <textarea id="modal-field-amenities" rows="2" placeholder="إطلالة بحر مباشرة&#10;واي فاي مجاني&#10;تكييف بالكامل&#10;شاطئ خاص"></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+          <button type="button" class="confirm-btn" onclick="closeChaletModal()" style="background:rgba(255,255,255,0.1); color:#fff;">إلغاء</button>
+          <button type="submit" class="confirm-btn" id="modal-submit-btn">حفظ وتأكيد العقار ✨</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL: معاينة إيصال التحويل -->
   <div class="modal-overlay" id="receipt-modal">
-    <div class="modal-box">
+    <div class="modal-box" style="max-width:520px; text-align:center;">
       <div class="modal-header">
         <h3>📸 صورة إيصال التحويل</h3>
         <button class="close-modal-btn" onclick="closeReceiptModal()">✕</button>
       </div>
-      <img id="receipt-modal-img" src="" style="width:100%; max-height:65vh; object-fit:contain; border-radius:10px; border:1px solid #ccc;">
-      <button type="button" class="confirm-btn" onclick="closeReceiptModal()" style="margin-top:12px; background:#475569;">إغلاق</button>
+      <img id="receipt-modal-img" src="" style="width:100%; max-height:65vh; object-fit:contain; border-radius:12px; border:1px solid var(--card-border); background:#000;">
+      <button type="button" class="confirm-btn" onclick="closeReceiptModal()" style="margin-top:16px; width:100%; background:rgba(255,255,255,0.15); color:#fff;">إغلاق</button>
     </div>
   </div>
 
+  <script src="js/data.js"></script>
   <script>
-    const defaultChalets = [
-      {
-        id: "1", title: "شاليه لؤلؤة مارينا الساحلية", location: "الساحل الشمالي", price: 3500, rating: 4.9, rooms: 3, baths: 2, hasPool: true,
-        images: ["https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80"],
-        video: "",
-        image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "2", title: "فيلا بورتو السخنة الملكية", location: "العين السخنة", price: 4500, rating: 5.0, rooms: 4, baths: 3, hasPool: true,
-        images: ["https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80"],
-        video: "",
-        image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80"
-      }
-    ];
+    let currentStatusFilter = 'all';
 
+    // ==========================================
+    // تهيئة الصفحة
+    // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
-      initData();
-      
-      // 💡 1. استرجاع التابة النشطة عند الـ Refresh حتى لا يرجع للشاليهات
-      const savedTab = localStorage.getItem('mosaify_active_tab') || 'bookings-tab';
-      const targetBtn = document.getElementById('btn-' + savedTab) || document.getElementById('btn-bookings-tab');
+      const loggedUser = sessionStorage.getItem('mosaify_logged_user') || 'الأدمن';
+      document.getElementById('logged-username').innerText = loggedUser;
+
+      const savedTab = localStorage.getItem('mosaify_active_tab') || 'chalets-tab';
+      const targetBtn = document.getElementById('btn-' + savedTab) || document.getElementById('btn-chalets-tab');
       switchTab(savedTab, targetBtn);
 
       renderAllData();
 
-      // التسميع اللحظي التلقائي
-      window.addEventListener('storage', () => {
-        renderAllData();
-      });
+      // مزامنة تلقائية مع أي تغيير في التبويبات الأخرى
+      window.addEventListener('storage', () => renderAllData());
     });
 
-    function initData() {
-      if (!localStorage.getItem('mosaify_chalets')) {
-        localStorage.setItem('mosaify_chalets', JSON.stringify(defaultChalets));
-      }
-      if (!localStorage.getItem('mosaify_admins')) {
-        localStorage.setItem('mosaify_admins', JSON.stringify([{ username: 'admin', password: '123', role: 'superadmin' }]));
-      }
-    }
-
-    function getChalets() { return JSON.parse(localStorage.getItem('mosaify_chalets')) || []; }
-    function getBookings() { return JSON.parse(localStorage.getItem('mosaify_bookings')) || []; }
-
-    function renderAllData() {
-      renderChaletsTable(getChalets());
-      renderBookingsTable(getBookings());
-      renderAdminsTable(JSON.parse(localStorage.getItem('mosaify_admins')) || []);
-    }
-
-    // 💡 التبديل بين التابات وحفظ الخيار
+    // ==========================================
+    // التبديل بين التابات
+    // ==========================================
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      
-      const targetTab = document.getElementById(tabId);
-      if(targetTab) targetTab.classList.add('active');
-      if(btn) btn.classList.add('active');
-
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+      if (btn) btn.classList.add('active');
       localStorage.setItem('mosaify_active_tab', tabId);
     }
 
-    function toggleAccordion(contentId, arrowId) {
-      document.getElementById(contentId).classList.toggle('collapsed');
-      document.getElementById(arrowId).classList.toggle('open');
+    // ==========================================
+    // رندر وتحديث كافة البيانات
+    // ==========================================
+    function renderAllData() {
+      const chalets  = getChalets();
+      const bookings = getBookings();
+      const admins   = getAdmins();
+
+      renderChaletsTable(chalets);
+      renderBookingsTable(bookings);
+      renderAdminsTable(admins);
+      updateGlobalStats(chalets, bookings);
     }
 
-    // --- الشاليهات ---
+    // تحديث شريط الإحصائيات العلوي
+    function updateGlobalStats(chalets, bookings) {
+      document.getElementById('total-chalets').innerText = chalets.length;
+      document.getElementById('total-bookings').innerText = bookings.length;
+
+      const pendingCount = bookings.filter(b => {
+        const s = (b.status || '').toLowerCase();
+        return s === 'pending' || s === 'جديد' || !b.status;
+      }).length;
+
+      document.getElementById('pending-bookings').innerText = pendingCount;
+      const badge = document.getElementById('pending-badge');
+      if (pendingCount > 0) {
+        badge.style.display = 'inline-block';
+        badge.innerText = pendingCount;
+      } else {
+        badge.style.display = 'none';
+      }
+
+      let paidRevenue = 0, totalRevenue = 0;
+      bookings.forEach(b => {
+        const s = (b.status || '').toLowerCase();
+        const paid = Number(b.paid || b.paidAmount || b.payable || 0);
+        const total = Number(b.totalPrice || b.total || 0);
+        if (s === 'approved' || s === 'مقبول') {
+          paidRevenue += paid;
+          totalRevenue += total;
+        }
+      });
+
+      document.getElementById('total-paid-revenue').innerText = paidRevenue.toLocaleString() + ' ج.م';
+      document.getElementById('total-revenue').innerText      = totalRevenue.toLocaleString() + ' ج.م';
+    }
+
+    // ==========================================
+    // جدول الشاليهات
+    // ==========================================
     function renderChaletsTable(chalets) {
       const tbody = document.getElementById('admin-chalet-table');
       tbody.innerHTML = '';
-      document.getElementById('total-chalets').innerText = chalets.length;
 
-      if (chalets.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:15px;">لا توجد شاليهات حالياً 🏖️</td></tr>`;
+      if (!chalets || chalets.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:var(--text-dim);">لا توجد شاليهات مسجلة حتى الآن 🏖️</td></tr>`;
         return;
       }
 
-      chalets.forEach(chalet => {
-        const mainImg = (chalet.images && chalet.images.length > 0) ? chalet.images[0] : (chalet.image || 'https://via.placeholder.com/80');
-        const imgCount = chalet.images ? chalet.images.length : (chalet.image ? 1 : 0);
-        const hasVideo = chalet.video ? '🎥 نعم' : '❌ لا';
+      chalets.forEach(c => {
+        const mainImg  = (c.images && c.images.length > 0) ? c.images[0] : (c.image || 'https://via.placeholder.com/80');
+        const imgCount = c.images ? c.images.length : (c.image ? 1 : 0);
+        const hasVideo = c.video ? '🎥 نعم' : '❌ لا';
+        const poolText = c.hasPool ? '🏊 مسبح' : '';
 
         tbody.innerHTML += `
           <tr>
-            <td><img src="${mainImg}" class="thumb-img"></td>
-            <td><strong>${chalet.title}</strong><br><small style="color:#64748b">${chalet.location}</small></td>
-            <td>⭐ ${chalet.rating}</td>
-            <td><strong style="color:#0b3d3e">${Number(chalet.price).toLocaleString()} ج.م</strong></td>
-            <td><small>🖼️ ${imgCount} صور<br>${hasVideo}</small></td>
+            <td><img src="${mainImg}" class="thumb-img" onerror="this.src='https://via.placeholder.com/55x42'"></td>
             <td>
-              <button class="delete-btn" onclick="deleteChalet('${chalet.id}')">حذف 🗑️</button>
+              <strong style="color:#fff; font-size:14px;">${c.title}</strong><br>
+              <small style="color:var(--text-dim);">📍 ${c.location || c.area || '-'} ${c.resort ? '— ' + c.resort : ''}</small>
             </td>
-          </tr>
-        `;
+            <td><strong style="color:var(--accent-gold); font-size:15px;">${Number(c.price).toLocaleString()} ج.م</strong></td>
+            <td>⭐ ${c.rating || '5.0'}</td>
+            <td>
+              <span style="font-size:12px; color:var(--text-dim);">🛏️ ${c.rooms || c.bedrooms || 1} غرف | 🚿 ${c.baths || c.bathrooms || 1} حمام</span>
+              ${poolText ? `<br><small style="color:#20b2aa; font-weight:800;">${poolText}</small>` : ''}
+            </td>
+            <td><small style="color:var(--text-dim);">🖼️ ${imgCount} صور<br>${hasVideo}</small></td>
+            <td>
+              <div class="action-btns-group">
+                <button class="edit-btn" onclick="openEditChaletModal('${c.id}')">تعديل ✏️</button>
+                <button class="delete-btn" onclick="deleteChalet('${c.id}')">حذف 🗑️</button>
+              </div>
+            </td>
+          </tr>`;
       });
     }
 
-    // 💡 دالة تحويل الملفات لـ Base64 لرفع الصور والفيديوهات بسهولة
+    // ==========================================
+    // المودال الموحد لإضافة وتعديل الشاليه
+    // ==========================================
+    function openAddChaletModal() {
+      document.getElementById('chalet-unified-form').reset();
+      document.getElementById('chalet-action-id').value = '';
+      document.getElementById('modal-chalet-title').innerText = '➕ إضافة شاليه/فيلا جديدة';
+      document.getElementById('modal-submit-btn').innerText = 'حفظ وتأكيد العقار ✨';
+      document.getElementById('modal-pool-text').innerText = 'لا ❌';
+      document.getElementById('chalet-form-modal').classList.add('active');
+    }
+
+    function openEditChaletModal(id) {
+      const c = getPropertyById(id);
+      if (!c) { alert('العقار غير موجود!'); return; }
+
+      document.getElementById('chalet-action-id').value       = c.id;
+      document.getElementById('modal-field-title').value      = c.title || '';
+      document.getElementById('modal-field-loc').value        = c.location || c.area || 'الساحل الشمالي';
+      document.getElementById('modal-field-type').value       = c.type || 'شاليه';
+      document.getElementById('modal-field-resort').value     = c.resort || '';
+      document.getElementById('modal-field-price').value      = c.price || 0;
+      document.getElementById('modal-field-rating').value     = c.rating || 5.0;
+      document.getElementById('modal-field-guests').value     = c.guests || 6;
+      document.getElementById('modal-field-rooms').value      = c.rooms || c.bedrooms || 2;
+      document.getElementById('modal-field-baths').value      = c.baths || c.bathrooms || 1;
+      document.getElementById('modal-field-desc').value       = c.description || '';
+      document.getElementById('modal-field-amenities').value  = (c.amenities || []).join('\n');
+      document.getElementById('modal-field-images-urls').value= '';
+      document.getElementById('modal-field-video-url').value  = (typeof c.video === 'string' && !c.video.startsWith('data:')) ? c.video : '';
+
+      const poolCb = document.getElementById('modal-field-pool');
+      poolCb.checked = !!c.hasPool;
+      document.getElementById('modal-pool-text').innerText = c.hasPool ? 'نعم ✅' : 'لا ❌';
+
+      document.getElementById('modal-chalet-title').innerText = '✏️ تعديل بيانات الشاليه';
+      document.getElementById('modal-submit-btn').innerText = 'حفظ التعديلات ✅';
+      document.getElementById('chalet-form-modal').classList.add('active');
+    }
+
+    function closeChaletModal() {
+      document.getElementById('chalet-form-modal').classList.remove('active');
+    }
+
     function readFileAsBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
+        reader.onload  = () => resolve(reader.result);
+        reader.onerror = e  => reject(e);
         reader.readAsDataURL(file);
       });
     }
 
-    async function handleAddChalet(e) {
+    async function handleUnifiedChaletSubmit(e) {
       e.preventDefault();
-      
-      let imagesList = [];
-      
-      // 1. معالجة روابط الصور المكتوبة يدويًا
-      const urlsText = document.getElementById('add-chalet-images-urls').value.trim();
+      const editId = document.getElementById('chalet-action-id').value;
+      const existing = editId ? (getPropertyById(editId) || {}) : {};
+
+      let imagesList = editId ? [...(existing.images || [])] : [];
+
+      const urlsText = document.getElementById('modal-field-images-urls').value.trim();
       if (urlsText) {
-        imagesList = urlsText.split('\n').map(u => u.trim()).filter(u => u.length > 0);
+        urlsText.split('\n').map(u => u.trim()).filter(Boolean).forEach(u => imagesList.push(u));
       }
 
-      // 2. معالجة الصور المرفوعة كملفات
-      const imageFiles = document.getElementById('add-chalet-images-files').files;
-      if (imageFiles.length > 0) {
-        for (let i = 0; i < imageFiles.length; i++) {
-          try {
-            const b64 = await readFileAsBase64(imageFiles[i]);
-            imagesList.push(b64);
-          } catch(err) { console.error('Error reading image file', err); }
-        }
+      const files = document.getElementById('modal-field-images-files').files;
+      for (let i = 0; i < files.length; i++) {
+        try { imagesList.push(await readFileAsBase64(files[i])); } catch(err) {}
       }
 
       if (imagesList.length === 0) {
         imagesList.push("https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80");
       }
 
-      // 3. معالجة الفيديو
-      let videoSrc = document.getElementById('add-chalet-video-url').value.trim();
-      const videoFile = document.getElementById('add-chalet-video-file').files[0];
+      let videoSrc = document.getElementById('modal-field-video-url').value.trim();
+      const videoFile = document.getElementById('modal-field-video-file').files[0];
       if (videoFile) {
-        try {
-          videoSrc = await readFileAsBase64(videoFile);
-        } catch(err) { console.error('Error reading video file', err); }
+        try { videoSrc = await readFileAsBase64(videoFile); } catch(err) {}
+      } else if (!videoSrc && editId) {
+        videoSrc = existing.video || '';
       }
 
-      const newChalet = {
-        id: Date.now().toString(),
-        title: document.getElementById('add-chalet-title').value.trim(),
-        location: document.getElementById('add-chalet-loc').value,
-        price: Number(document.getElementById('add-chalet-price').value),
-        rating: Number(document.getElementById('add-chalet-rating').value),
-        rooms: Number(document.getElementById('add-chalet-rooms').value),
-        baths: Number(document.getElementById('add-chalet-baths').value),
-        hasPool: document.getElementById('add-chalet-pool').checked,
-        description: document.getElementById('add-chalet-desc').value.trim(),
-        images: imagesList,
-        image: imagesList[0], // الصورة الرئيسية
-        video: videoSrc
+      const amenitiesRaw = document.getElementById('modal-field-amenities').value.trim();
+      const amenities = amenitiesRaw ? amenitiesRaw.split('\n').map(s => s.trim()).filter(Boolean) : (existing.amenities || []);
+
+      const loc = document.getElementById('modal-field-loc').value;
+      const chaletData = {
+        ...existing,
+        id:          editId || ('p_' + Date.now()),
+        title:       document.getElementById('modal-field-title').value.trim(),
+        location:    loc,
+        area:        loc,
+        type:        document.getElementById('modal-field-type').value,
+        resort:      document.getElementById('modal-field-resort').value.trim(),
+        price:       Number(document.getElementById('modal-field-price').value),
+        rating:      Number(document.getElementById('modal-field-rating').value),
+        guests:      Number(document.getElementById('modal-field-guests').value),
+        rooms:       Number(document.getElementById('modal-field-rooms').value),
+        bedrooms:    Number(document.getElementById('modal-field-rooms').value),
+        baths:       Number(document.getElementById('modal-field-baths').value),
+        bathrooms:   Number(document.getElementById('modal-field-baths').value),
+        hasPool:     document.getElementById('modal-field-pool').checked,
+        description: document.getElementById('modal-field-desc').value.trim(),
+        amenities:   amenities,
+        images:      imagesList,
+        image:       imagesList[0] || '',
+        video:       videoSrc
       };
 
-      const chalets = getChalets();
-      chalets.unshift(newChalet);
-      localStorage.setItem('mosaify_chalets', JSON.stringify(chalets));
-      renderChaletsTable(chalets);
-      alert('✅ تم إضافة الشاليه بالصور والفيديو بنجاح!');
-      document.getElementById('add-chalet-form').reset();
+      upsertProperty(chaletData);
+      closeChaletModal();
+      renderAllData();
+      alert('✅ تم ' + (editId ? 'تعديل' : 'إضافة') + ' الشاليه بنجاح!');
     }
 
     function deleteChalet(id) {
-      if (confirm('هل أنت تأكد من إزالة هذا العقار؟')) {
-        let chalets = getChalets().filter(c => String(c.id) !== String(id));
-        localStorage.setItem('mosaify_chalets', JSON.stringify(chalets));
-        renderChaletsTable(chalets);
+      if (confirm('هل أنت متأكد من حذف هذا العقار؟')) {
+        deletePropertyById(id);
+        renderAllData();
       }
     }
 
-    // --- الحجوزات 🧾 ---
+    // ==========================================
+    // جدول الحجوزات
+    // ==========================================
     function renderBookingsTable(bookings) {
       const tbody = document.getElementById('admin-bookings-table');
       tbody.innerHTML = '';
 
-      let paidRevenue = 0;
-      let totalRevenue = 0;
+      const filtered = currentStatusFilter === 'all'
+        ? bookings
+        : bookings.filter(b => {
+            const s = (b.status || 'pending').toLowerCase();
+            if (currentStatusFilter === 'pending')  return s === 'pending'  || s === 'جديد' || !b.status;
+            if (currentStatusFilter === 'approved') return s === 'approved' || s === 'مقبول';
+            if (currentStatusFilter === 'rejected') return s === 'rejected' || s === 'مرفوض';
+            return true;
+          });
 
-      document.getElementById('total-bookings').innerText = bookings.length;
+      const q = (document.getElementById('search-booking')?.value || '').toLowerCase().trim();
+      const displayList = q
+        ? filtered.filter(b => {
+            const id   = String(b.id || b.bookingId || '').toLowerCase();
+            const name = String(b.customerName || b.name || b.userName || '').toLowerCase();
+            const ph   = String(b.customerPhone || b.phone || b.userPhone || '').toLowerCase();
+            return id.includes(q) || name.includes(q) || ph.includes(q);
+          })
+        : filtered;
 
-      if (bookings.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:15px; color:#64748b;">لا توجد طلبات حجز حتى الآن 📋</td></tr>`;
-        document.getElementById('total-paid-revenue').innerText = '0 ج.م';
-        document.getElementById('total-revenue').innerText = '0 ج.م';
+      if (!displayList || displayList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:30px; color:var(--text-dim);">لا توجد طلبات حجز مطابقة 📋</td></tr>`;
         return;
       }
 
-      bookings.forEach(b => {
-        const id = b.id || b.bookingId || '---';
-        const chaletTitle = b.chaletTitle || b.propertyTitle || b.chaletName || 'الملك';
+      displayList.forEach(b => {
+        const id          = b.id || b.bookingId || '---';
+        const chaletTitle = b.chaletTitle || b.propertyTitle || 'الوحدة';
+        const userName    = b.customerName || b.name || b.userName || 'عميل';
+        const userPhone   = b.customerPhone || b.phone || b.userPhone || 'غير مدون';
+        const checkin     = b.checkin  || b.checkIn  || '';
+        const checkout    = b.checkout || b.checkOut || '';
+        const paid        = Number(b.paid || b.paidAmount || b.payable || 0);
+        const total       = Number(b.totalPrice || b.total || 0);
+        const remaining   = Number(b.remaining || Math.max(0, total - paid));
+        const receiptImg  = b.receiptImg || b.receiptImage || '';
+        const currentStatus = b.status || 'pending';
+        const payType = (b.paymentType === 'deposit' || b.paymentType === 'عربون') ? 'عربون 🔒' : 'كامل 💳';
 
-        const userName = b.userName || b.guestName || b.clientName || b.name || 'عميل بدون اسم';
-        const userPhone = b.userPhone || b.phone || b.mobile || b.guestPhone || 'غير مدون';
-
-        // 💡 2. استخراج وتنسيق التواريخ وفترة الإقامة
-        const checkin = b.checkin || b.startDate || b.from || b.dateFrom || '';
-        const checkout = b.checkout || b.endDate || b.to || b.dateTo || '';
-        
-        let datesDisplay = '<span style="color:#94a3b8">غير محدد</span>';
+        let datesDisplay = '<span style="color:var(--text-dim)">غير محدد</span>';
         if (checkin && checkout) {
-          const d1 = new Date(checkin);
-          const d2 = new Date(checkout);
-          const diffTime = Math.abs(d2 - d1);
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
-          
+          const d1 = new Date(checkin); const d2 = new Date(checkout);
+          const diffDays = Math.ceil(Math.abs(d2 - d1) / 86400000) || 1;
           datesDisplay = `
             <div class="stay-period">
               <span class="stay-dates">${checkin} ⬅️ ${checkout}</span>
               <span class="stay-nights">🌙 ${diffDays} ${diffDays > 10 ? 'ليلة' : 'ليالي'}</span>
-            </div>
-          `;
+            </div>`;
         }
 
-        const paymentType = b.paymentType === 'deposit' ? 'عربون' : 'كامل المبلغ';
-        const paid = Number(b.paid || b.payable || 0);
-        const total = Number(b.totalPrice || b.total || 0);
-        const remaining = Number(b.remaining || (total - paid));
-        const receiptImg = b.receiptImg || b.receiptImage || '';
-        const currentStatus = b.status || 'pending';
+        const isApproved = currentStatus === 'approved' || currentStatus === 'مقبول';
+        const selectClass = isApproved ? 'approved' : (currentStatus === 'rejected' || currentStatus === 'مرفوض') ? 'rejected' : 'pending';
 
-        if (currentStatus === 'approved' || currentStatus === 'مقبول') {
-          paidRevenue += paid;
-          totalRevenue += total;
-        }
+        const receiptHTML = receiptImg
+          ? `<img src="${receiptImg}" class="receipt-thumb" onclick="openReceiptModal('${receiptImg}')" title="عرض الإيصال">`
+          : `<small style="color:var(--text-dim);">بدون إيصال</small>`;
 
-        const receiptHTML = receiptImg 
-          ? `<img src="${receiptImg}" class="receipt-thumb" onclick="openReceiptModal('${receiptImg}')">`
-          : `<small style="color:#94a3b8">بدون إيصال</small>`;
-
-        const selectClass = (currentStatus === 'approved' || currentStatus === 'مقبول') ? 'approved' : 
-                            (currentStatus === 'rejected' || currentStatus === 'مرفوض') ? 'rejected' : 'pending';
-
-        // 💡 تنسيق رقم الهاتف مع زر واتساب مباشر وزر اتصال
-        let phoneHTML = `<span style="color:#94a3b8">${userPhone}</span>`;
+        let phoneHTML = `<span style="color:var(--text-dim);">${userPhone}</span>`;
         if (userPhone !== 'غير مدون') {
           const cleanPhone = userPhone.replace(/[^0-9]/g, '');
           phoneHTML = `
             <div class="phone-actions">
-              <a href="tel:${userPhone}" class="phone-link" title="اتصال تلفوني">📞 ${userPhone}</a>
-              <a href="https://wa.me/2${cleanPhone}" target="_blank" class="whatsapp-btn" title="مراسلة واتساب">💬</a>
-            </div>
-          `;
+              <a href="tel:${userPhone}" class="phone-link">📞 ${userPhone}</a>
+              <a href="https://wa.me/2${cleanPhone}" target="_blank" class="whatsapp-btn">💬</a>
+            </div>`;
         }
 
         tbody.innerHTML += `
           <tr>
-            <td><strong style="color:var(--coral)">#${id}</strong></td>
-            <td><strong>${chaletTitle}</strong></td>
+            <td><strong style="color:var(--accent-coral);">#${id}</strong></td>
+            <td><strong style="color:#fff;">${chaletTitle}</strong></td>
             <td><strong>${userName}</strong></td>
             <td>${phoneHTML}</td>
             <td>${datesDisplay}</td>
-            <td><span style="background:#e0f2fe; color:#0369a1; padding:3px 8px; border-radius:6px; font-size:11px;">${paymentType}</span></td>
-            <td style="color:#10b981; font-weight:bold;">${paid.toLocaleString()} ج.م</td>
-            <td style="color:#ef4444; font-weight:bold;">${remaining.toLocaleString()} ج.م</td>
+            <td><span style="background:rgba(0,180,216,0.15); color:#38bdf8; padding:4px 8px; border-radius:6px; font-size:11.5px; font-weight:800;">${payType}</span></td>
+            <td style="color:var(--accent-green); font-weight:900;">${paid.toLocaleString()} ج.م</td>
+            <td style="color:#f87171; font-weight:900;">${remaining.toLocaleString()} ج.م</td>
             <td><strong>${total.toLocaleString()} ج.م</strong></td>
             <td>${receiptHTML}</td>
             <td>
-              <select class="status-select ${selectClass}" onchange="updateBookingStatus('${id}', this.value)">
-                <option value="pending" ${currentStatus === 'pending' || currentStatus === 'جديد' ? 'selected' : ''}>⏳ جديد</option>
-                <option value="approved" ${currentStatus === 'approved' || currentStatus === 'مقبول' ? 'selected' : ''}>✅ مقبول</option>
-                <option value="rejected" ${currentStatus === 'rejected' || currentStatus === 'مرفوض' ? 'selected' : ''}>❌ مرفوض</option>
+              <select class="status-select ${selectClass}" onchange="handleStatusChange('${id}', this)">
+                <option value="pending"  ${currentStatus === 'pending'  || !b.status || currentStatus === 'جديد'  ? 'selected' : ''}>⏳ قيد المراجعة</option>
+                <option value="approved" ${currentStatus === 'approved' || currentStatus === 'مقبول' ? 'selected' : ''}>✅ مقبول ومؤكد</option>
+                <option value="rejected" ${currentStatus === 'rejected' || currentStatus === 'مرفوض' ? 'selected' : ''}>❌ مرفوض / ملغي</option>
               </select>
             </td>
             <td>
-              <button class="delete-btn" onclick="deleteBooking('${id}')">حذف</button>
+              <button class="delete-btn" onclick="handleDeleteBooking('${id}')">حذف 🗑️</button>
             </td>
-          </tr>
-        `;
+          </tr>`;
       });
-
-      document.getElementById('total-paid-revenue').innerText = paidRevenue.toLocaleString() + ' ج.م';
-      document.getElementById('total-revenue').innerText = totalRevenue.toLocaleString() + ' ج.م';
     }
 
-    function updateBookingStatus(id, newStatus) {
-      let bookings = getBookings();
-      const index = bookings.findIndex(b => String(b.id || b.bookingId) === String(id));
+    function handleStatusChange(id, selectEl) {
+      const newStatus = selectEl.value;
+      updateBookingStatus(id, newStatus);
+      selectEl.className = 'status-select ' + (newStatus === 'approved' ? 'approved' : newStatus === 'rejected' ? 'rejected' : 'pending');
+      renderAllData();
+    }
 
-      if (index !== -1) {
-        bookings[index].status = newStatus;
-        localStorage.setItem('mosaify_bookings', JSON.stringify(bookings));
-
-        window.dispatchEvent(new Event('storage'));
-        renderBookingsTable(bookings);
+    function handleDeleteBooking(id) {
+      if (confirm('هل أنت متأكد من حذف هذا الحجز نهائياً؟')) {
+        deleteBookingById(id);
+        renderAllData();
       }
     }
 
-    function deleteBooking(id) {
-      if (confirm('هل أنت تأكد من حذف هذا الحجز؟')) {
-        let bookings = getBookings().filter(b => String(b.id || b.bookingId) !== String(id));
-        localStorage.setItem('mosaify_bookings', JSON.stringify(bookings));
-        window.dispatchEvent(new Event('storage'));
-        renderBookingsTable(bookings);
-      }
+    function filterBookings() { renderBookingsTable(getBookings()); }
+
+    function filterByStatus(status, btn) {
+      currentStatusFilter = status;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      renderBookingsTable(getBookings());
     }
 
-    function filterBookings() {
-      const q = document.getElementById('search-booking').value.toLowerCase();
-      const bookings = getBookings().filter(b => {
-        const id = String(b.id || b.bookingId || '').toLowerCase();
-        const name = String(b.userName || b.guestName || b.clientName || '').toLowerCase();
-        const phone = String(b.userPhone || b.phone || b.mobile || '').toLowerCase();
-        return id.includes(q) || name.includes(q) || phone.includes(q);
-      });
-      renderBookingsTable(bookings);
-    }
-
-    // --- 💡 3. الإدمن والحسابات (الباسورد + السوبر أدمن) ---
+    // ==========================================
+    // جدول الأدمن والمسئولين
+    // ==========================================
     function renderAdminsTable(admins) {
       const tbody = document.getElementById('admin-users-table');
-      tbody.innerHTML = '';
       document.getElementById('total-admins').innerText = admins.length;
+      tbody.innerHTML = '';
 
       admins.forEach((admin, idx) => {
         const isSuper = admin.role === 'superadmin' || idx === 0;
-        const roleBadge = isSuper 
-          ? `<span class="role-badge role-super">سوبر أدمن 👑</span>` 
+        const roleBadge = isSuper
+          ? `<span class="role-badge role-super">سوبر أدمن 👑</span>`
           : `<span class="role-badge role-admin">أدمن عادي 👤</span>`;
 
         tbody.innerHTML += `
           <tr>
-            <td><strong>${admin.username}</strong></td>
+            <td><strong style="color:#fff;">${admin.username}</strong></td>
             <td>${roleBadge}</td>
             <td>
-              <div class="password-wrapper" style="max-width:160px;">
-                <input type="password" id="pwd-field-${idx}" value="${admin.password}" readonly style="padding: 4px 8px; font-size:12px; border:1px solid #cbd5e1;">
-                <button type="button" class="toggle-pwd-btn" onclick="togglePasswordInput('pwd-field-${idx}', this)">👁️</button>
+              <div style="position:relative; display:flex; align-items:center; max-width:160px;">
+                <input type="password" id="pwd-field-${idx}" value="${admin.password}" readonly style="padding:6px 10px; font-size:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.3); color:#fff; border-radius:6px; width:100%;">
+                <button type="button" style="position:absolute; left:6px; background:none; border:none; cursor:pointer; color:#94a3b8;" onclick="togglePasswordInput('pwd-field-${idx}', this)">👁️</button>
               </div>
             </td>
-            <td>${idx === 0 ? '<small style="color:#94a3b8">الحساب الرئيسي</small>' : `<button class="delete-btn" onclick="deleteAdmin(${idx})">حذف</button>`}</td>
-          </tr>
-        `;
+            <td>${idx === 0 ? '<small style="color:var(--text-dim);">الحساب الرئيسي</small>' : `<button class="delete-btn" onclick="deleteAdmin(${idx})">حذف</button>`}</td>
+          </tr>`;
       });
-    }
-
-    function togglePasswordInput(fieldId, btn) {
-      const input = document.getElementById(fieldId);
-      if (input.type === 'password') {
-        input.type = 'text';
-        btn.innerText = '🙈';
-      } else {
-        input.type = 'password';
-        btn.innerText = '👁️';
-      }
     }
 
     function handleAddAdmin(e) {
@@ -795,32 +1319,30 @@
       const u = document.getElementById('add-admin-username').value.trim();
       const p = document.getElementById('add-admin-password').value.trim();
       const r = document.getElementById('add-admin-role').value;
-
-      let admins = JSON.parse(localStorage.getItem('mosaify_admins')) || [];
-      
-      // التأكد من عدم تكرار اسم المستخدم
+      let admins = getAdmins();
       if (admins.some(a => a.username.toLowerCase() === u.toLowerCase())) {
-        alert('❌ اسم المستخدم موجود بالفعل، الرجاء اختيار اسم آخر!');
+        alert('❌ اسم المستخدم موجود بالفعل!');
         return;
       }
-
       admins.push({ username: u, password: p, role: r });
-      localStorage.setItem('mosaify_admins', JSON.stringify(admins));
-
-      alert('✅ تم إضافة حساب الأدمن بنجاح!');
+      saveAdmins(admins);
+      alert('✅ تم إضافة المسئول بنجاح!');
       document.getElementById('admin-account-form').reset();
       renderAdminsTable(admins);
     }
 
     function deleteAdmin(idx) {
-      if (confirm('هل أنت متاكد من حذف هذا الأدمن؟')) {
-        let admins = JSON.parse(localStorage.getItem('mosaify_admins')) || [];
+      if (confirm('هل أنت متأكد من حذف هذا المسئول؟')) {
+        let admins = getAdmins();
         admins.splice(idx, 1);
-        localStorage.setItem('mosaify_admins', JSON.stringify(admins));
+        saveAdmins(admins);
         renderAdminsTable(admins);
       }
     }
 
+    // ==========================================
+    // وظائف عامة
+    // ==========================================
     function openReceiptModal(src) {
       document.getElementById('receipt-modal-img').src = src;
       document.getElementById('receipt-modal').classList.add('active');
@@ -831,11 +1353,18 @@
 
     function logoutAdmin() {
       sessionStorage.removeItem('mosaify_admin_authenticated');
+      sessionStorage.removeItem('mosaify_logged_user');
       window.location.href = 'admin-login.html';
     }
 
     function togglePoolText(cb, targetId) {
       document.getElementById(targetId).innerText = cb.checked ? 'نعم ✅' : 'لا ❌';
+    }
+
+    function togglePasswordInput(fieldId, btn) {
+      const input = document.getElementById(fieldId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      btn.innerText = input.type === 'password' ? '👁️' : '🙈';
     }
   </script>
 </body>
